@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Los Tacos</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
@@ -12,54 +12,46 @@
 </head>
 
 <body>
-    <header class="header">
-        <div class="logo">Los Tacos</div>
-        <nav class="nav">
+    <header class="header" role="banner">
+        <div class="logo" aria-label="Los Tacos">Los Tacos</div>
+        <nav class="nav" role="navigation" aria-label="Primary Navigation">
             <a href="#contact">Contact</a>
         </nav>
     </header>
 
-    <section class="hero">
+    <section class="hero" role="region" aria-label="Hero Section">
         <div class="hero-content">
             <h1>Los Tacos</h1>
-            <p>Welcome to Los Tacos where we serve you authentic Mexican food with a burst of amazing flavors in each bite.</p>
-        
+            <p>
+                Welcome to Los Tacos where we serve you authentic Mexican food with a burst of amazing flavors in each
+                bite.
+            </p>
+
             <div class="btn-wrapper">
-                <a href="menu.html" class="btn">Menu</a>
-                <img src="images/burger.jpg" alt="decorative shape" class="btn-bg" />
+                <a href="menu.html" class="btn" role="button" aria-label="View Menu">Menu</a>
+                <img src="images/burger.jpg" alt="" class="btn-bg" aria-hidden="true" />
             </div>
         </div>
-          
     </section>
 
-    <section class="services">
-        <div class="service-card">
-            <img src="images/birria.jpg" alt="Birria Tacos">
-            <h3>Birria Tacos</h3>
-            <p>$14.95</p>
-        </div>
-        <div class="service-card2">
-            <img src="images/Enchi.jpg" alt="Enchiladas">
-            <h3>Enchiladas</h3>
-            <p>$15</p>
-        </div>
-        <div class="service-card">
-            <img src="images/burger.jpg" alt="Burger">
-            <h3>Burger</h3>
-            <p>$16</p>
-        </div>
-    </section>
-
-    <section id="about" class="about">
-        <h2>About Us</h2>
-        <p>Welcome to Los Tacos! We're passionate about serving up delicious, authentic Mexican cuisine with a modern
-            twist.</p>
+    <section id="about" class="about" role="region" aria-labelledby="about-title">
+        <h2 id="about-title">About Us</h2>
+        <p>
+            Welcome to Los Tacos! We're passionate about serving up delicious, authentic Mexican cuisine with a modern
+            twist.
+        </p>
         <p>From birria tacos to enchiladas, everything is made with fresh ingredients and love.</p>
     </section>
 
-    <section id="contact" class="contact">
-        <p>📞 (917) 933- 4211 |
-            <a href="https://www.instagram.com/los_tacos._/" target="_blank">@los_tacos._</a>
+    <section class="showcase" role="region" aria-label="Featured Dish">
+        <img src="images/Enchi.jpg" alt="Plate of enchiladas" class="showcase-image" />
+    </section>
+
+    <section id="contact" class="contact" role="region" aria-labelledby="contact-title">
+        <h2 id="contact-title" class="sr-only">Contact Information</h2>
+        <p>
+            📞 <a href="tel:+19179334211">(917) 933-4211</a> |
+            <a href="https://www.instagram.com/los_tacos._/" target="_blank" rel="noopener noreferrer">@los_tacos._</a>
         </p>
     </section>
 </body>
