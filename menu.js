@@ -1,42 +1,73 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const sliderContainer = document.querySelector('.slider-container');
-  const tacoSlider = document.querySelector('.slider');
-  const prevButton = document.createElement('button');
-  const nextButton = document.createElement('button');
+  const sliderContainers = document.querySelectorAll('.slider-container');
 
-  prevButton.classList.add('prev');
-  nextButton.classList.add('next');
-  prevButton.textContent = '←';
-  nextButton.textContent = '→';
-  sliderContainer.appendChild(prevButton);
-  sliderContainer.appendChild(nextButton);
+  sliderContainers.forEach(container => {
+    const slider = container.querySelector('.slider');
 
-  let currentIndex = 0;
-  const itemWidth = 260; 
+    const prevButton = document.createElement('button');
+    const nextButton = document.createElement('button');
+    prevButton.classList.add('prev');
+    nextButton.classList.add('next');
+    prevButton.textContent = '←';
+    nextButton.textContent = '→';
 
-  function slideTo(index) {
-    currentIndex = index;
-    tacoSlider.style.transition = 'transform 0.5s ease-in-out';
-    tacoSlider.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
-  }
+    container.appendChild(prevButton);
+    container.appendChild(nextButton);
 
-  function slideLeft() {
-    if (currentIndex > 0) slideTo(currentIndex - 1);
-  }
+    const itemWidth = 270;
 
-  function slideRight() {
-    if (currentIndex < tacoSlider.children.length - 1) {
-      slideTo(currentIndex + 1);
-    } else {
-      slideTo(0);
+    function updateArrows() {
+      const scrollLeft = slider.scrollLeft;
+      const maxScrollLeft = slider.scrollWidth - slider.clientWidth;
+
+      prevButton.style.display = scrollLeft <= 0 ? 'none' : 'block';
+      nextButton.style.display = scrollLeft >= maxScrollLeft - 1 ? 'none' : 'block';
     }
-  }
 
-  prevButton.addEventListener('click', slideLeft);
-  nextButton.addEventListener('click', slideRight);
+    function slideLeft() {
+      slider.scrollBy({ left: -itemWidth, behavior: 'smooth' });
+      setTimeout(updateArrows, 500);
+    }
 
-  setInterval(slideRight, 3000);
+    function slideRight() {
+      slider.scrollBy({ left: itemWidth, behavior: 'smooth' });
+      setTimeout(updateArrows, 500);
+    }
 
+    slider.addEventListener('scroll', updateArrows);
+    prevButton.addEventListener('click', slideLeft);
+    nextButton.addEventListener('click', slideRight);
+
+    // Initialize arrows
+    updateArrows();
+
+    // Touch swipe support
+    let startX = 0;
+    let isDragging = false;
+
+    slider.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+      isDragging = true;
+    });
+
+    slider.addEventListener('touchmove', (e) => {
+      if (!isDragging) return;
+      const diff = startX - e.touches[0].clientX;
+      if (diff > 50) {
+        slideRight();
+        isDragging = false;
+      } else if (diff < -50) {
+        slideLeft();
+        isDragging = false;
+      }
+    });
+
+    slider.addEventListener('touchend', () => {
+      isDragging = false;
+    });
+  });
+
+  // Smooth scroll for menu links
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
       const targetId = this.getAttribute('href');
@@ -51,30 +82,22 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Swipe support
-  let startX = 0;
-  let isDragging = false;
+  // Back to top button
+  const backToTop = document.createElement('button');
+  backToTop.textContent = '↑';
+  backToTop.classList.add('back-to-top');
+  document.body.appendChild(backToTop);
 
-  tacoSlider.addEventListener('touchstart', (e) => {
-    startX = e.touches[0].clientX;
-    isDragging = true;
+  backToTop.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
-  tacoSlider.addEventListener('touchmove', (e) => {
-    if (!isDragging) return;
-    const diff = startX - e.touches[0].clientX;
-    if (diff > 50) {
-      slideRight();
-      isDragging = false;
-    } else if (diff < -50) {
-      slideLeft();
-      isDragging = false;
-    }
-  });
-
-  tacoSlider.addEventListener('touchend', () => {
-    isDragging = false;
+  window.addEventListener('scroll', () => {
+    backToTop.style.display = window.scrollY > 500 ? 'block' : 'none';
   });
 });
+
+
+
 
 

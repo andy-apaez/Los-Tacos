@@ -52,14 +52,6 @@ nav a:first-child {
     font-weight: 600;
 }
 
-/* Search */
-.search-box {
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    border: 1px solid #ccc;
-    outline: none;
-}
-
 /* Layout Container */
 .container {
     display: flex;
@@ -106,7 +98,7 @@ nav a:first-child {
     width: 100%;
     overflow: hidden;
     margin-top: 1rem;
-    padding: 0 1rem;
+    padding: 0 2rem;
 }
 
 .slider {
@@ -116,6 +108,7 @@ nav a:first-child {
     transition: transform 0.5s ease-in-out;
     gap: 1rem;
     will-change: transform;
+    scroll-behavior: smooth;
 }
 
 /* Menu Card */
@@ -159,28 +152,33 @@ nav a:first-child {
     cursor: pointer;
 }
 
-/* Slider Nav Buttons */
+/* Slider Nav Arrows */
 .slider-container .prev,
 .slider-container .next {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    padding: 0.5rem;
-    font-size: 1.5rem;
-    background: rgba(0, 0, 0, 0.5);
-    color: #fff;
-    border: none;
+    font-size: 1.8rem;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid #ccc;
+    color: #333;
     border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
     z-index: 10;
+    transition: opacity 0.3s ease;
 }
 
 .slider-container .prev {
-    left: 10px;
+    left: 0;
 }
 
 .slider-container .next {
-    right: 10px;
+    right: 0;
 }
 
 /* Category Buttons (Mobile Nav) */
@@ -201,6 +199,24 @@ nav a:first-child {
     border-radius: 20px;
     white-space: nowrap;
     flex: 0 0 auto;
+}
+
+/* Back to Top Button */
+.back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #3f2fd1;
+    color: #fff;
+    padding: 0.6rem 1rem;
+    border-radius: 999px;
+    font-weight: bold;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    display: none;
+    z-index: 999;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Mobile Styles */
@@ -284,19 +300,24 @@ nav a:first-child {
     }
 }
 
-/* Fixed Mobile Home Button */
-.mobile-home-btn {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    background-color: #3f2fd1;
-    color: #fff;
-    padding: 0.6rem 1rem;
-    border-radius: 999px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    font-weight: bold;
-    font-size: 0.9rem;
-    text-decoration: none;
-    z-index: 999;
-    display: none;
+/* Emphasize Home link in mobile nav */
+nav a[href="index.html"] {
+    font-weight: 600;
+    color: #3f2fd1;
+    display: block;
+    padding: 0.75rem 1rem;
+}
+
+/* Nav link spacing on mobile */
+@media (max-width: 768px) {
+    nav a {
+        display: block;
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid #eee;
+        color: #444;
+    }
+
+    nav a:last-child {
+        border-bottom: none;
+    }
 }
