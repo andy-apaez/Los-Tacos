@@ -1,4 +1,4 @@
-/* Base Reset & Global Styles */
+/* Base Reset */
 * {
     margin: 0;
     padding: 0;
@@ -9,6 +9,7 @@ body {
     font-family: 'Inter', sans-serif;
     background-color: #f9f9fb;
     color: #222;
+    overflow-x: hidden;
 }
 
 a {
@@ -35,7 +36,6 @@ header {
     cursor: pointer;
 }
 
-/* Navigation */
 nav {
     display: flex;
     flex-wrap: wrap;
@@ -52,7 +52,7 @@ nav a:first-child {
     font-weight: 600;
 }
 
-/* Layout Container */
+/* Container */
 .container {
     display: flex;
     padding: 2rem;
@@ -92,6 +92,11 @@ nav a:first-child {
     min-width: 0;
 }
 
+.section-title {
+    font-size: 1.5rem;
+    margin-bottom: 0.3rem;
+}
+
 /* Slider */
 .slider-container {
     position: relative;
@@ -105,13 +110,12 @@ nav a:first-child {
     display: flex;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-    transition: transform 0.5s ease-in-out;
     gap: 1rem;
-    will-change: transform;
     scroll-behavior: smooth;
+    padding-bottom: 1rem;
 }
 
-/* Menu Card */
+/* Menu Items */
 .menu-item {
     flex: 0 0 auto;
     scroll-snap-align: start;
@@ -126,6 +130,21 @@ nav a:first-child {
 .menu-item img {
     width: 100%;
     display: block;
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+.menu-item img[loading="lazy"] {
+    opacity: 0;
+    transform: scale(0.98);
+    animation: fadeIn 0.5s forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 .menu-info {
@@ -152,7 +171,7 @@ nav a:first-child {
     cursor: pointer;
 }
 
-/* Slider Nav Arrows */
+/* Arrows */
 .slider-container .prev,
 .slider-container .next {
     position: absolute;
@@ -174,34 +193,14 @@ nav a:first-child {
 }
 
 .slider-container .prev {
-    left: 0;
+    left: 5px;
 }
 
 .slider-container .next {
-    right: 0;
+    right: 5px;
 }
 
-/* Category Buttons (Mobile Nav) */
-.category-buttons {
-    display: none;
-    margin: 1rem;
-    gap: 0.5rem;
-    overflow-x: auto;
-    padding: 0.5rem 1rem;
-}
-
-.category-buttons a {
-    background: #eaeafc;
-    color: #3f2fd1;
-    font-weight: 600;
-    font-size: 0.85rem;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    white-space: nowrap;
-    flex: 0 0 auto;
-}
-
-/* Back to Top Button */
+/* Back to Top */
 .back-to-top {
     position: fixed;
     bottom: 20px;
@@ -219,7 +218,7 @@ nav a:first-child {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Mobile Styles */
+/* Responsive */
 @media (max-width: 768px) {
     .container {
         flex-direction: column;
@@ -239,10 +238,11 @@ nav a:first-child {
         display: none;
         width: 100%;
         margin-top: 1rem;
+        flex-direction: column;
     }
 
     .nav-open nav {
-        display: block;
+        display: flex;
     }
 
     .sidebar {
@@ -274,17 +274,8 @@ nav a:first-child {
         right: 5px;
         font-size: 1rem;
     }
-
-    .category-buttons {
-        display: flex;
-    }
-
-    .mobile-home-btn {
-        display: inline-block;
-    }
 }
 
-/* Smallest Screens */
 @media (max-width: 480px) {
     .menu-item {
         width: 100%;
@@ -297,27 +288,5 @@ nav a:first-child {
     .add-btn {
         font-size: 0.9rem;
         padding: 0.3rem;
-    }
-}
-
-/* Emphasize Home link in mobile nav */
-nav a[href="index.html"] {
-    font-weight: 600;
-    color: #3f2fd1;
-    display: block;
-    padding: 0.75rem 1rem;
-}
-
-/* Nav link spacing on mobile */
-@media (max-width: 768px) {
-    nav a {
-        display: block;
-        padding: 0.75rem 1rem;
-        border-bottom: 1px solid #eee;
-        color: #444;
-    }
-
-    nav a:last-child {
-        border-bottom: none;
     }
 }

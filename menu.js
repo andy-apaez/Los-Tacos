@@ -1,101 +1,94 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const sliderContainers = document.querySelectorAll('.slider-container');
+  // Toggle mobile nav
+  const toggle = document.querySelector(".menu-toggle");
+  if (toggle) {
+    toggle.addEventListener("click", () => {
+      document.body.classList.toggle("nav-open");
+    });
+  }
 
-  sliderContainers.forEach(container => {
-    const slider = container.querySelector('.slider');
+  // Sliders setup
+  const sliders = document.querySelectorAll(".slider-container");
 
-    const prevButton = document.createElement('button');
-    const nextButton = document.createElement('button');
-    prevButton.classList.add('prev');
-    nextButton.classList.add('next');
-    prevButton.textContent = '←';
-    nextButton.textContent = '→';
-
-    container.appendChild(prevButton);
-    container.appendChild(nextButton);
-
+  sliders.forEach(container => {
+    const slider = container.querySelector(".slider");
+    const prevBtn = container.querySelector(".prev");
+    const nextBtn = container.querySelector(".next");
     const itemWidth = 270;
 
     function updateArrows() {
-      const scrollLeft = slider.scrollLeft;
       const maxScrollLeft = slider.scrollWidth - slider.clientWidth;
-
-      prevButton.style.display = scrollLeft <= 0 ? 'none' : 'block';
-      nextButton.style.display = scrollLeft >= maxScrollLeft - 1 ? 'none' : 'block';
+      prevBtn.style.display = slider.scrollLeft <= 0 ? "none" : "flex";
+      nextBtn.style.display = slider.scrollLeft >= maxScrollLeft - 1 ? "none" : "flex";
     }
 
-    function slideLeft() {
-      slider.scrollBy({ left: -itemWidth, behavior: 'smooth' });
-      setTimeout(updateArrows, 500);
+    function slideBy(offset) {
+      const newPos = slider.scrollLeft + offset;
+      slider.scrollTo({ left: newPos, behavior: "smooth" });
+      setTimeout(updateArrows, 400);
     }
 
-    function slideRight() {
-      slider.scrollBy({ left: itemWidth, behavior: 'smooth' });
-      setTimeout(updateArrows, 500);
-    }
-
-    slider.addEventListener('scroll', updateArrows);
-    prevButton.addEventListener('click', slideLeft);
-    nextButton.addEventListener('click', slideRight);
-
-    // Initialize arrows
+    prevBtn.addEventListener("click", () => slideBy(-itemWidth));
+    nextBtn.addEventListener("click", () => slideBy(itemWidth));
+    slider.addEventListener("scroll", updateArrows);
     updateArrows();
 
-    // Touch swipe support
+    // Touch swipe
     let startX = 0;
     let isDragging = false;
 
-    slider.addEventListener('touchstart', (e) => {
+    slider.addEventListener("touchstart", (e) => {
       startX = e.touches[0].clientX;
       isDragging = true;
     });
 
-    slider.addEventListener('touchmove', (e) => {
+    slider.addEventListener("touchmove", (e) => {
       if (!isDragging) return;
-      const diff = startX - e.touches[0].clientX;
-      if (diff > 50) {
-        slideRight();
+      const dx = startX - e.touches[0].clientX;
+      if (dx > 50) {
+        slideBy(itemWidth);
         isDragging = false;
-      } else if (diff < -50) {
-        slideLeft();
+      } else if (dx < -50) {
+        slideBy(-itemWidth);
         isDragging = false;
       }
     });
 
-    slider.addEventListener('touchend', () => {
+    slider.addEventListener("touchend", () => {
       isDragging = false;
     });
   });
 
-  // Smooth scroll for menu links
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      const targetId = this.getAttribute('href');
-      const target = document.querySelector(targetId);
+  // Smooth scrolling for anchors
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener("click", function (e) {
+      const target = document.querySelector(this.getAttribute("href"));
       if (target) {
         e.preventDefault();
         window.scrollTo({
           top: target.offsetTop - 60,
-          behavior: 'smooth'
+          behavior: "smooth"
         });
       }
     });
   });
 
   // Back to top button
-  const backToTop = document.createElement('button');
-  backToTop.textContent = '↑';
-  backToTop.classList.add('back-to-top');
-  document.body.appendChild(backToTop);
-
-  backToTop.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  const topBtn = document.getElementById("backToTop");
+  window.addEventListener("scroll", () => {
+    if (topBtn) {
+      topBtn.style.display = window.scrollY > 400 ? "block" : "none";
+    }
   });
 
-  window.addEventListener('scroll', () => {
-    backToTop.style.display = window.scrollY > 500 ? 'block' : 'none';
-  });
+  if (topBtn) {
+    topBtn.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
 });
+
+
 
 
 
