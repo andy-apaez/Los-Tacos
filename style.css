@@ -1,3 +1,10 @@
+/* Font */
+.indie-flower-regular {
+    font-family: "Indie Flower", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+
 /* Base Reset */
 *,
 *::before,
@@ -10,7 +17,6 @@
 html,
 body {
     overflow-x: hidden;
-    /* Prevent horizontal scroll */
 }
 
 body {
@@ -26,49 +32,105 @@ img {
     height: auto;
     display: block;
     position: relative;
-    /* ensure default stacking */
     z-index: 1;
-    /* above .btn-bg */
 }
 
 /* Header */
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.5rem 2rem;
     background-color: transparent;
     position: absolute;
     width: 100%;
     z-index: 10;
-    /* above everything */
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
 }
 
 .logo {
-    font-size: 1.2rem;
-    font-weight: 600;
-    text-transform: lowercase;
+    width: 100px;
+    height: 100px;
 }
 
+.logo img {
+    height: 100%;
+    width: auto;
+}
+
+/* Hamburger */
+.hamburger {
+    display: none;
+    font-size: 2rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #333;
+    z-index: 11;
+}
+
+/* Navigation */
 .nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
     position: relative;
     z-index: 10;
 }
 
-.nav a {
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+}
+
+.nav-links li a {
     text-decoration: none;
-    color: #555;
+    color: black;
     font-size: 0.9rem;
     transition: color 0.3s ease;
-    position: relative;
-    z-index: 10;
 }
 
-.nav a:hover {
-    color: #000;
+.nav-links li a:hover {
+    color: white;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    background-color: rgb(171, 16, 16);
+    /* Change this manually later */
+    position: sticky;
+    /* Keeps nav at top on scroll */
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    /* Optional light shadow */
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+    .hamburger {
+        display: block;
+    }
+
+    .nav-links {
+        position: absolute;
+        top: 100%;
+        right: 2rem;
+        background-color: #fff;
+        flex-direction: column;
+        width: 200px;
+        padding: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        display: none;
+    }
+
+    .nav-links.open {
+        display: flex;
+    }
 }
 
 /* Hero Section */
@@ -82,9 +144,7 @@ img {
     padding: 0 1.5rem;
     position: relative;
     overflow: hidden;
-    /* clip overflow */
     z-index: 5;
-    /* above .btn-bg */
 }
 
 .hero::after {
@@ -101,19 +161,19 @@ img {
 .hero-content {
     position: relative;
     z-index: 6;
-    /* above hero::after and .btn-bg */
     max-width: 700px;
 }
 
 .hero h1 {
+    color: rgb(171, 16, 16);
     font-size: 2.5rem;
-    font-weight: 600;
+    font-weight: 1000;
     margin-bottom: 1rem;
 }
 
 .hero p {
     font-size: 1rem;
-    color: #444;
+    color: black;
     margin-bottom: 2rem;
 }
 
@@ -124,7 +184,6 @@ img {
     height: 180px;
     margin: 0 auto;
     z-index: 6;
-    /* above .btn-bg */
 }
 
 .btn-bg {
@@ -134,16 +193,15 @@ img {
     width: 100vw;
     height: 100vh;
     object-fit: cover;
-    opacity: 0.3;
+    opacity: 0.5;
     pointer-events: none;
     z-index: 0;
-    /* behind everything */
 }
 
 .btn {
     position: relative;
     z-index: 7;
-    background-color: #222;
+    background-color: rgb(171, 16, 16);
     color: white;
     padding: 0.75rem 1.5rem;
     border-radius: 999px;
@@ -186,20 +244,31 @@ img {
     z-index: 5;
 }
 
-/* Showcase image with black background and border */
 .showcase-image {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
     background-color: #000;
     border: 4px solid #111;
     border-radius: 8px;
     padding: 8px;
-    max-width: 100%;
+    width: 270px;
+    /* default desktop size */
     height: auto;
-    display: block;
-    margin: 0 auto;
     box-shadow: 0 0 25px rgba(0, 0, 0, 0.9);
-    position: relative;
-    z-index: 5;
-    /* above .btn-bg */
+    margin-right: 1rem;
+    transition: transform 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .showcase-image {
+        width: 48%;
+        /* roughly 2 per row with gap */
+    }
+
+    .slider {
+        gap: 4%;
+        /* smaller gap between two items */
+    }
 }
 
 /* Contact Section */
@@ -223,7 +292,7 @@ img {
     color: #000;
 }
 
-/* Screen reader only (for hidden headings) */
+/* Screen reader only */
 .sr-only {
     position: absolute !important;
     width: 1px !important;
@@ -236,24 +305,8 @@ img {
     border: 0 !important;
 }
 
-/* Responsive Design */
+/* Responsive tweaks */
 @media (max-width: 768px) {
-    .header {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 1rem;
-    }
-
-    .nav {
-        flex-wrap: wrap;
-        margin-top: 1rem;
-        gap: 0.75rem;
-    }
-
-    .nav a {
-        margin: 0;
-    }
-
     .hero h1 {
         font-size: 2rem;
     }
@@ -289,17 +342,68 @@ img {
         font-size: 0.85rem;
         padding: 0.6rem 1.2rem;
     }
+}
 
-    .header {
-        padding: 1rem;
-    }
+/* Showcase Slider */
+.slider-container {
+    position: relative;
+    overflow: hidden;
+    margin: 2rem auto;
+    max-width: 90%;
+    padding: 0 2rem;
+}
 
-    .nav {
-        flex-direction: column;
-        gap: 0.5rem;
-    }
+.slider {
+    display: flex;
+    gap: 1rem;
+    transition: transform 0.4s ease;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+}
 
-    .nav a {
-        margin-left: 0;
-    }
+.slider::-webkit-scrollbar {
+    display: none;
+}
+
+.showcase-image {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    background-color: #000;
+    border: 4px solid #111;
+    border-radius: 8px;
+    padding: 8px;
+    width: 270px;
+    height: auto;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.9);
+}
+
+/* Slider buttons */
+.prev,
+.next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    z-index: 5;
+}
+
+.prev {
+    left: 0.5rem;
+}
+
+.next {
+    right: 0.5rem;
+}
+
+.prev:disabled,
+.next:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
 }

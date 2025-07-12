@@ -1,5 +1,17 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Toggle mobile nav
+  // Toggle hamburger navigation
+  const hamburger = document.querySelector(".hamburger");
+  const navLinks = document.querySelector(".nav-links");
+
+  if (hamburger && navLinks) {
+    hamburger.addEventListener("click", () => {
+      const expanded = hamburger.getAttribute("aria-expanded") === "true";
+      hamburger.setAttribute("aria-expanded", String(!expanded));
+      navLinks.classList.toggle("open");
+    });
+  }
+
+  // Toggle nav via menu-toggle
   const toggle = document.querySelector(".menu-toggle");
   if (toggle) {
     toggle.addEventListener("click", () => {
@@ -7,14 +19,16 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Sliders setup
+  // Slider setup for each slider container
   const sliders = document.querySelectorAll(".slider-container");
 
   sliders.forEach(container => {
     const slider = container.querySelector(".slider");
     const prevBtn = container.querySelector(".prev");
     const nextBtn = container.querySelector(".next");
-    const itemWidth = 270;
+    const itemWidth = 270; // Adjust this to match .menu-item width + margin
+
+    if (!slider || !prevBtn || !nextBtn) return;
 
     function updateArrows() {
       const maxScrollLeft = slider.scrollWidth - slider.clientWidth;
@@ -23,8 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function slideBy(offset) {
-      const newPos = slider.scrollLeft + offset;
-      slider.scrollTo({ left: newPos, behavior: "smooth" });
+      slider.scrollBy({ left: offset, behavior: "smooth" });
       setTimeout(updateArrows, 400);
     }
 
@@ -33,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
     slider.addEventListener("scroll", updateArrows);
     updateArrows();
 
-    // Touch swipe
+    // Touch swipe support
     let startX = 0;
     let isDragging = false;
 
@@ -59,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Smooth scrolling for anchors
+  // Smooth scroll for internal anchor links
   document.querySelectorAll('a[href^="#"]').forEach(link => {
     link.addEventListener("click", function (e) {
       const target = document.querySelector(this.getAttribute("href"));
@@ -87,6 +100,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+
+
 
 
 
