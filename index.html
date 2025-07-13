@@ -19,9 +19,7 @@
             <div class="logo">
                 <img src="images/logo.png" alt="Los Tacos Logo" />
             </div>
-            <button class="hamburger" aria-label="Toggle Navigation" aria-expanded="false">
-                ☰
-            </button>
+            <button class="hamburger" aria-label="Toggle Navigation" aria-expanded="false">☰</button>
             <nav class="nav" role="navigation" aria-label="Primary Navigation">
                 <ul class="nav-links">
                     <li><a href="#about">About</a></li>
@@ -31,17 +29,14 @@
             </nav>
         </div>
     </header>
-      
 
     <section class="hero" role="region" aria-label="Hero Section">
         <div class="hero-content">
             <h1>Los Tacos</h1>
-            <p>
-                Welcome to Los Tacos where we serve you authentic mexican food with fresh ingredients and exceptional taste.
-            </p>
-
+            <p>Welcome to Los Tacos where we serve you authentic Mexican food with fresh ingredients and exceptional
+                taste.</p>
             <div class="btn-wrapper">
-                <a href="menu.html" class="btn" role="button" aria-label="View Menu">Menu</a>
+                <a href="menu.html" class="btn" aria-label="View Menu">Menu</a>
                 <img src="images/Chorizo.png" alt="" class="btn-bg" aria-hidden="true" />
             </div>
         </div>
@@ -49,22 +44,52 @@
 
     <section id="about" class="about" role="region" aria-labelledby="about-title">
         <h2 id="about-title">About Us</h2>
-        <p>
-            Welcome to Los Tacos! We're passionate about serving up delicious, authentic Mexican cuisine with a modern
-            twist.
-        </p>
+        <p>We're passionate about serving up delicious, authentic Mexican cuisine with a modern twist.</p>
         <p>From birria tacos to enchiladas, everything is made with fresh ingredients and love.</p>
     </section>
 
     <section class="showcase" role="region" aria-label="Featured Dishes">
         <div class="slider-container">
+            <button class="prev" aria-label="Previous">&#8592;</button>
             <div class="slider">
-                <img src="images/Enchi.jpg" alt="Plate of enchiladas" class="showcase-image" />
-                <img src="images/birriaslider.png" alt="Placeholder image 1" class="showcase-image" />
-                <img src="images/arabe.png" alt="Placeholder image 2" class="showcase-image" />
-                <img src="images/stfajitas.png" alt="Placeholder image 3" class="showcase-image" />
-                <img src="images/vburrito.png" alt="Placeholder image 3" class="showcase-image" />
-                <img src="images/Nachos.png" alt="Placeholder image 3" class="showcase-image" />
+                <img src="images/Enchi.jpg" alt="Enchiladas plate" class="showcase-image" />
+                <img src="images/birriaslider.png" alt="Birria tacos" class="showcase-image" />
+                <img src="images/arabe.png" alt="Taco Árabe with lime" class="showcase-image" />
+                <img src="images/stfajitas.png" alt="Stuffed fajitas with peppers" class="showcase-image" />
+                <img src="images/vburrito.png" alt="Vegetarian burrito" class="showcase-image" />
+                <img src="images/Nachos.png" alt="Loaded nachos with cheese" class="showcase-image" />
+            </div>
+            <button class="next" aria-label="Next">&#8594;</button>
+        </div>
+    </section>
+
+    <section class="location-info">
+        <div class="info-grid">
+            <div class="info-left">
+                <h3>LOS TACOS</h3>
+                <h2>Brooklyn, NY</h2>
+                <p><span class="icon">📍</span> 7411 15th Ave, Brooklyn, NY 11228 </p>
+                <p><span class="icon">📞</span> <a href="tel:+19175551234">(917) 933-4211</a></p>
+                <p><span class="icon">🧭</span> <a href="https://www.google.com/maps/place/Los+Tacos/@40.6178676,-74.0050351,17z/data=!3m1!4b1!4m6!3m5!1s0x89c2452754209291:0xb7c7927e1549051b!8m2!3d40.6178676!4d-74.0024602!16s%2Fg%2F11x5h6yfxt?entry=ttu&g_ep=EgoyMDI1MDcwOS4wIKXMDSoASAFQAw%3D%3D" target="_blank">Get directions</a></p>
+                <p class="desc">
+                    Come dine with us and try our traditional Mexican style food!!
+                </p>
+            </div>
+    
+            <div class="info-right">
+                <h4>OPENING HOURS</h4>
+                <ul class="hours">
+                    <li><strong>MON–THU:</strong> 5:00 PM – 1:00 AM</li>
+                    <li><strong>FRI–SAT:</strong> 5:00 PM – 1:00 AM</li>
+                    <li><strong>SUN:</strong> 5:00 PM – 1:00 AM</li>
+                </ul>
+    
+                <h4>FACILITIES</h4>
+                <ul class="facilities">
+                    <li>✔️ Fast Casual</li>
+                    <li>✔️ To Go</li>
+                    <li>✔️ Dine In</li>
+                </ul>
             </div>
         </div>
     </section>
@@ -77,6 +102,10 @@
             <a href="https://www.instagram.com/los_tacos._/" target="_blank" rel="noopener noreferrer">@los_tacos._</a>
         </p>
     </section>
+
+    <button id="backToTop" aria-label="Back to Top">↑</button>
+
+    <script src="script.js"></script>
 </body>
 
 </html>

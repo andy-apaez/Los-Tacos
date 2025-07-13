@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Toggle hamburger navigation
+  // Hamburger Menu Toggle
   const hamburger = document.querySelector(".hamburger");
   const navLinks = document.querySelector(".nav-links");
 
@@ -11,22 +11,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Toggle nav via menu-toggle
-  const toggle = document.querySelector(".menu-toggle");
-  if (toggle) {
-    toggle.addEventListener("click", () => {
-      document.body.classList.toggle("nav-open");
-    });
-  }
-
-  // Slider setup for each slider container
+  // Slider Logic
   const sliders = document.querySelectorAll(".slider-container");
 
   sliders.forEach(container => {
     const slider = container.querySelector(".slider");
     const prevBtn = container.querySelector(".prev");
     const nextBtn = container.querySelector(".next");
-    const itemWidth = 270; // Adjust this to match .menu-item width + margin
+    const itemWidth = 270; // Adjust this based on your actual image + margin size
 
     if (!slider || !prevBtn || !nextBtn) return;
 
@@ -38,7 +30,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function slideBy(offset) {
       slider.scrollBy({ left: offset, behavior: "smooth" });
-      setTimeout(updateArrows, 400);
     }
 
     prevBtn.addEventListener("click", () => slideBy(-itemWidth));
@@ -47,17 +38,20 @@ document.addEventListener("DOMContentLoaded", () => {
     updateArrows();
 
     // Touch swipe support
-    let startX = 0;
-    let isDragging = false;
+    let startX = 0, startY = 0, isDragging = false;
 
     slider.addEventListener("touchstart", (e) => {
       startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
       isDragging = true;
     });
 
     slider.addEventListener("touchmove", (e) => {
       if (!isDragging) return;
       const dx = startX - e.touches[0].clientX;
+      const dy = Math.abs(startY - e.touches[0].clientY);
+      if (dy > 30) return;
+
       if (dx > 50) {
         slideBy(itemWidth);
         isDragging = false;
@@ -69,6 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     slider.addEventListener("touchend", () => {
       isDragging = false;
+      updateArrows();
     });
   });
 
@@ -76,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll('a[href^="#"]').forEach(link => {
     link.addEventListener("click", function (e) {
       const target = document.querySelector(this.getAttribute("href"));
-      if (target) {
+      if (target instanceof HTMLElement) {
         e.preventDefault();
         window.scrollTo({
           top: target.offsetTop - 60,
@@ -88,6 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Back to top button
   const topBtn = document.getElementById("backToTop");
+
   window.addEventListener("scroll", () => {
     if (topBtn) {
       topBtn.style.display = window.scrollY > 400 ? "block" : "none";
@@ -100,6 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
 
 
 
