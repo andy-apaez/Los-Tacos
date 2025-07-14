@@ -1,3 +1,13 @@
+/* CSS Variables for easier theming */
+:root {
+    --primary-color: rgb(171, 16, 16);
+    --secondary-color: #6b6b6b;
+    --background-color: #f9f9fb;
+    --text-color: #222;
+    --nav-link-hover-bg: #f0f0f0;
+    --sidebar-active-bg: #eaeafc;
+}
+
 /* Base Reset */
 * {
     margin: 0;
@@ -7,8 +17,8 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #f9f9fb;
-    color: #222;
+    background-color: var(--background-color);
+    color: var(--text-color);
     overflow-x: hidden;
 }
 
@@ -34,6 +44,12 @@ header {
     border: none;
     font-size: 1.5rem;
     cursor: pointer;
+    user-select: none;
+}
+
+.menu-toggle:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
 }
 
 nav {
@@ -43,12 +59,12 @@ nav {
 
 nav a {
     margin-right: 1.5rem;
-    color: #6b6b6b;
+    color: var(--secondary-color);
     font-weight: 500;
 }
 
 nav a:first-child {
-    color: #3f2fd1;
+    color: var(--primary-color);
     font-weight: 600;
 }
 
@@ -75,14 +91,15 @@ nav a:first-child {
     border-radius: 8px;
     cursor: pointer;
     transition: background 0.2s ease;
+    user-select: none;
 }
 
 .sidebar li:hover {
-    background: #f0f0f0;
+    background: var(--nav-link-hover-bg);
 }
 
 .sidebar li:first-child {
-    background: #eaeafc;
+    background: var(--sidebar-active-bg);
     font-weight: bold;
 }
 
@@ -93,7 +110,7 @@ nav a:first-child {
 }
 
 .section-title {
-    color: rgb(171, 16, 16);
+    color: var(--primary-color);
     font-size: 1.5rem;
     margin-bottom: 0.3rem;
 }
@@ -105,6 +122,12 @@ nav a:first-child {
     overflow: hidden;
     margin-top: 1rem;
     padding: 0 2rem;
+}
+
+@media (max-width: 768px) {
+    .slider-container {
+        padding: 0 1rem;
+    }
 }
 
 .slider {
@@ -122,7 +145,7 @@ nav a:first-child {
     scroll-snap-align: start;
     width: 250px;
     border-radius: 12px;
-    box-shadow: 0 2px 10px r(0, 0, 0, 0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     position: relative;
 }
@@ -153,7 +176,7 @@ nav a:first-child {
     bottom: 0;
     width: 100%;
     padding: 0.5rem 1rem;
-    background: rgb(171, 16, 16);
+    background: var(--primary-color);
     font-weight: 600;
     text-align: center;
     transition: background 0.3s ease;
@@ -171,6 +194,12 @@ nav a:first-child {
     border-radius: 50%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     cursor: pointer;
+    user-select: none;
+}
+
+.add-btn:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
 }
 
 /* Arrows */
@@ -181,7 +210,6 @@ nav a:first-child {
     transform: translateY(-50%);
     font-size: 1.8rem;
     background: rgba(255, 255, 255, 0.85);
-    /* FIXED */
     border: 1px solid #ccc;
     color: #333;
     border-radius: 50%;
@@ -193,6 +221,7 @@ nav a:first-child {
     cursor: pointer;
     z-index: 10;
     transition: opacity 0.3s ease;
+    user-select: none;
 }
 
 .slider-container .prev {
@@ -203,12 +232,18 @@ nav a:first-child {
     right: 5px;
 }
 
+.slider-container .prev:focus-visible,
+.slider-container .next:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
 /* Back to Top */
 .back-to-top {
     position: fixed;
     bottom: 20px;
-    right: 20px;
-    background-color: rgb(171, 16, 16);
+    left: 20px;
+    background-color: var(--primary-color);
     color: #fff;
     padding: 0.6rem 1rem;
     border-radius: 999px;
@@ -219,6 +254,12 @@ nav a:first-child {
     display: none;
     z-index: 999;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    user-select: none;
+}
+
+.back-to-top:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
 }
 
 /* Responsive */
@@ -260,12 +301,14 @@ nav a:first-child {
         overflow-x: auto;
         white-space: nowrap;
         padding-bottom: 0.5rem;
+        -webkit-overflow-scrolling: touch;
+        /* smooth scrolling on iOS */
     }
 
     .sidebar li {
         flex: 0 0 auto;
         margin-right: 1rem;
-        background: #f0f0f0;
+        background: var(--nav-link-hover-bg);
     }
 
     .menu-item {
@@ -276,6 +319,7 @@ nav a:first-child {
         bottom: 5px;
         right: 5px;
         font-size: 1rem;
+        padding: 0.4rem;
     }
 }
 
@@ -292,4 +336,96 @@ nav a:first-child {
         font-size: 0.9rem;
         padding: 0.3rem;
     }
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px 30px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.cart {
+    position: fixed;
+    top: 10%;
+    right: 10px;
+    width: 300px;
+    max-height: 70vh;
+    background: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    padding: 1rem;
+    overflow-y: auto;
+    z-index: 9999;
+    border-radius: 8px;
+}
+
+.hidden {
+    display: none;
+}
+
+#cartItems {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 1rem;
+}
+
+#cartItems li {
+    margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#cartItems li button {
+    margin-left: 0.5rem;
+    background: #e74c3c;
+    border: none;
+    color: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+
+#openCartBtn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 0.7rem 1.2rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 25px;
+    background-color: #27ae60;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
 }
