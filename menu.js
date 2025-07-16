@@ -1,4 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Declare currentItem to avoid implicit globals
+  let currentItem = null;
+
   // --- Hamburger Menu Toggle ---
   const hamburger = document.querySelector(".menu-toggle");
   const navLinks = document.querySelector("nav");
@@ -36,7 +39,6 @@ document.addEventListener("DOMContentLoaded", () => {
     slider.addEventListener("scroll", updateArrows);
     updateArrows();
 
-    // Touch swipe support
     let startX = 0, startY = 0, isDragging = false;
 
     slider.addEventListener("touchstart", (e) => {
@@ -93,43 +95,51 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // --- Modal Elements ---
+  // --- Modal Logic ---
   const modal = document.getElementById("itemModal");
   const modalName = document.getElementById("modalItemName");
   const modalDescription = document.getElementById("modalItemDescription");
   const modalPrice = document.getElementById("modalItemPrice");
   const addToCartBtn = document.getElementById("addToCartBtn");
-  const closeBtn = modal.querySelector(".close-btn");
+  const closeBtn = document.querySelector("#itemModal .close-btn");
 
-  let currentItem = null;
-
-  // Open modal when clicking add buttons
+  // Open modal on add-btn click
   document.querySelectorAll(".add-btn").forEach(btn => {
     btn.addEventListener("click", (e) => {
-      e.stopPropagation(); // avoid double event if nested
       const menuItem = e.target.closest(".menu-item");
       if (!menuItem) return;
 
-      const name = menuItem.dataset.name || menuItem.querySelector(".menu-info").innerText.split("\n")[0];
+      const name = menuItem.dataset.name || menuItem.querySelector(".menu-info")?.innerText.split("\n")[0];
       const description = menuItem.dataset.description || "No description available.";
-      const price = menuItem.dataset.price || menuItem.querySelector(".menu-info").innerText.split("\n")[1];
+      const price = menuItem.dataset.price || menuItem.querySelector(".menu-info")?.innerText.split("\n")[1];
 
       modalName.textContent = name;
       modalDescription.textContent = description;
       modalPrice.textContent = price;
-
       currentItem = { name, description, price: parseFloat(price.replace(/[^0-9.]/g, "")) };
 
       modal.classList.remove("hidden");
     });
   });
 
-  // Close modal handlers
-  closeBtn.addEventListener("click", () => {
-    modal.classList.add("hidden");
-  });
-  modal.addEventListener("click", (e) => {
-    if (e.target === modal) {
+  // Close modal on close button
+  if (closeBtn) {
+    closeBtn.addEventListener("click", () => {
+      modal.classList.add("hidden");
+    });
+  }
+  // Close modal when clicking outside modal content
+  if (modal) {
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        modal.classList.add("hidden");
+      }
+    });
+  }
+
+  // Optional: close modal on Escape key
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal && !modal.classList.contains("hidden")) {
       modal.classList.add("hidden");
     }
   });
@@ -143,6 +153,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const cartEl = document.getElementById("cart");
 
   function updateCartUI() {
+    if (!cartItemsEl || !cartTotalEl || !openCartBtn || !cartEl) return;
+
     cartItemsEl.innerHTML = "";
     let total = 0;
 
@@ -152,7 +164,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const li = document.createElement("li");
       li.textContent = `${item.name} x${item.quantity} - $${(item.price * item.quantity).toFixed(2)}`;
 
-      // Remove button
       const removeBtn = document.createElement("button");
       removeBtn.textContent = "×";
       removeBtn.setAttribute("aria-label", `Remove ${item.name} from cart`);
@@ -161,7 +172,6 @@ document.addEventListener("DOMContentLoaded", () => {
         updateCartUI();
       });
 
-      // Quantity controls
       const qtyControls = document.createElement("span");
 
       const minusBtn = document.createElement("button");
@@ -199,6 +209,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (cart.length === 0) {
       cartEl.classList.add("hidden");
+    } else {
+      cartEl.classList.remove("hidden");
     }
   }
 
@@ -210,32 +222,46 @@ document.addEventListener("DOMContentLoaded", () => {
       cart.push({ ...item, quantity: 1 });
     }
     updateCartUI();
-    cartEl.classList.remove("hidden");
   }
 
-  // Add to cart from modal button
-  addToCartBtn.addEventListener("click", () => {
-    if (!currentItem) return;
-    addToCart(currentItem);
-    modal.classList.add("hidden");
-  });
+  if (addToCartBtn) {
+    addToCartBtn.addEventListener("click", () => {
+      if (!currentItem) return;
+      addToCart(currentItem);
+      modal.classList.add("hidden");
+    });
+  }
 
-  // Cart open/close
-  openCartBtn.addEventListener("click", () => cartEl.classList.toggle("hidden"));
-  closeCartBtn.addEventListener("click", () => cartEl.classList.add("hidden"));
+  if (openCartBtn && cartEl) {
+    openCartBtn.addEventListener("click", () => {
+      cartEl.classList.toggle("hidden");
+    });
+  }
 
-  // Checkout button
-  document.getElementById("checkoutBtn").addEventListener("click", () => {
-    if (cart.length === 0) {
-      alert("Your cart is empty!");
-    } else {
-      alert("Checkout is not implemented yet.");
-    }
-  });
+  if (closeCartBtn && cartEl) {
+    closeCartBtn.addEventListener("click", () => {
+      console.log("Close cart clicked");  // Debug log
+      cartEl.classList.add("hidden");
+    });
+  } else {
+    console.warn("closeCartBtn or cartEl not found");
+  }
 
-  // Initialize cart UI
+  const checkoutBtn = document.getElementById("checkoutBtn");
+  if (checkoutBtn) {
+    checkoutBtn.addEventListener("click", () => {
+      if (cart.length === 0) {
+        alert("Your cart is empty!");
+      } else {
+        alert("Checkout is not implemented yet.");
+      }
+    });
+  }
+
   updateCartUI();
 });
+
+
 
 
 

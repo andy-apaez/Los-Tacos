@@ -36,6 +36,7 @@ header {
     background: #fff;
     border-bottom: 1px solid #ddd;
     flex-wrap: wrap;
+    width: 100%;
 }
 
 .menu-toggle {
@@ -61,6 +62,11 @@ nav a {
     margin-right: 1.5rem;
     color: var(--secondary-color);
     font-weight: 500;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: var(--primary-color);
 }
 
 nav a:first-child {
@@ -124,12 +130,6 @@ nav a:first-child {
     padding: 0 2rem;
 }
 
-@media (max-width: 768px) {
-    .slider-container {
-        padding: 0 1rem;
-    }
-}
-
 .slider {
     display: flex;
     overflow-x: auto;
@@ -137,6 +137,12 @@ nav a:first-child {
     gap: 1rem;
     scroll-behavior: smooth;
     padding-bottom: 1rem;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.slider::-webkit-scrollbar {
+    display: none;
 }
 
 /* Menu Items */
@@ -155,6 +161,8 @@ nav a:first-child {
     display: block;
     height: auto;
     transition: transform 0.3s ease;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
 }
 
 .menu-item img[loading="lazy"] {
@@ -180,6 +188,7 @@ nav a:first-child {
     font-weight: 600;
     text-align: center;
     transition: background 0.3s ease;
+    font-size: 1rem;
 }
 
 /* Add Button */
@@ -195,6 +204,7 @@ nav a:first-child {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     cursor: pointer;
     user-select: none;
+    z-index: 800;
 }
 
 .add-btn:focus-visible {
@@ -270,8 +280,9 @@ nav a:first-child {
     }
 
     header {
-        flex-direction: column;
-        align-items: flex-start;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
     }
 
     .menu-toggle {
@@ -302,7 +313,7 @@ nav a:first-child {
         white-space: nowrap;
         padding-bottom: 0.5rem;
         -webkit-overflow-scrolling: touch;
-        /* smooth scrolling on iOS */
+        scroll-behavior: smooth;
     }
 
     .sidebar li {
@@ -317,9 +328,13 @@ nav a:first-child {
 
     .add-btn {
         bottom: 5px;
-        right: 5px;
+        right: 50px;
         font-size: 1rem;
         padding: 0.4rem;
+    }
+
+    #openCartBtn {
+        bottom: 80px;
     }
 }
 
@@ -338,6 +353,7 @@ nav a:first-child {
     }
 }
 
+/* Modal */
 .modal {
     position: fixed;
     top: 0;
@@ -371,61 +387,101 @@ nav a:first-child {
     right: 15px;
     font-size: 24px;
     cursor: pointer;
+    transition: transform 0.2s ease, color 0.2s ease;
 }
 
+.close-btn:hover {
+    transform: scale(1.1);
+    color: var(--primary-color);
+}
+
+/* --- Cart Container --- */
 .cart {
-    position: fixed;
-    top: 10%;
-    right: 10px;
-    width: 300px;
-    max-height: 70vh;
     background: #fff;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    padding: 1rem;
-    overflow-y: auto;
-    z-index: 9999;
-    border-radius: 8px;
+    border-radius: 16px;
+    padding: 1.5rem;
+    width: 300px;
+    max-width: 90vw;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    font-size: 0.95rem;
+    position: fixed;
+    bottom: 3.5rem;
+    right: 1rem;
+    z-index: 1000;
+    transition: all 0.3s ease-in-out;
 }
 
-.hidden {
-    display: none;
-}
-
+/* --- Cart Items List --- */
 #cartItems {
     list-style: none;
-    padding-left: 0;
+    margin: 0;
+    padding: 0;
+    max-height: 250px;
+    overflow-y: auto;
     margin-bottom: 1rem;
 }
 
 #cartItems li {
-    margin-bottom: 0.5rem;
+    background: #f9f9f9;
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.75rem;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    gap: 0.4rem;
 }
 
-#cartItems li button {
-    margin-left: 0.5rem;
-    background: #e74c3c;
+/* --- Quantity Controls --- */
+#cartItems button {
+    background: #eee;
     border: none;
-    color: white;
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
+    padding: 0.25rem 0.6rem;
+    border-radius: 6px;
+    font-weight: bold;
     cursor: pointer;
+    transition: background 0.2s;
+    margin: 0 3px;
 }
 
-#openCartBtn {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    padding: 0.7rem 1.2rem;
-    font-weight: 600;
-    border: none;
-    border-radius: 25px;
-    background-color: #27ae60;
+#cartItems button:hover {
+    background: #ddd;
+}
+
+/* --- Remove Button (X) --- */
+#cartItems li button:last-child {
+    align-self: flex-end;
+    background: #ff6961;
     color: white;
+    font-size: 0.9rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+}
+
+#cartItems li button:last-child:hover {
+    background: #e55851;
+}
+
+/* --- Cart Total --- */
+#cartTotal {
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-align: right;
+}
+
+/* --- Checkout Button --- */
+#checkoutBtn {
+    display: block;
+    width: 100%;
+    background-color: #ff5733;
+    color: white;
+    border: none;
+    padding: 0.7rem 1rem;
+    border-radius: 8px;
+    font-size: 1rem;
     cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    z-index: 9999;
+    transition: background 0.2s ease;
+}
+
+#checkoutBtn:hover {
+    background-color: #e74c3c;
 }
