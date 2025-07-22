@@ -66,6 +66,7 @@ img {
 
 .hamburger {
     display: none;
+    /* Hidden on desktop */
     font-size: 2rem;
     background: none;
     border: none;
@@ -81,58 +82,75 @@ img {
 }
 
 .nav-links {
-    display: flex;
-    gap: 2rem;
+    display: none;
+    /* Hidden on desktop */
     list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 .nav-links li a {
     text-decoration: none;
-    color: black;
-    font-size: 0.9rem;
+    color: white;
+    font-size: 1.2rem;
     transition: color 0.3s ease;
 }
 
 .nav-links li a:hover {
-    color: white;
+    color: #ddd;
 }
 
 /* MOBILE MENU */
 @media (max-width: 768px) {
     .hamburger {
-        padding: 0.5rem;
-         line-height: 1;
-         border-radius: 4px;
-     }
+        display: block;
+        /* Show hamburger on mobile */
+    }
 
     .nav-links {
+        display: flex !important;
         position: absolute;
         top: 100%;
         right: 1.5rem;
         background-color: white;
         flex-direction: column;
         width: 200px;
-        padding: 1rem;
+        padding: 0;
+        /* Start padding 0 for animation */
         border: 1px solid #ddd;
         border-radius: 6px;
         max-height: 0;
         overflow: hidden;
         opacity: 0;
         pointer-events: none;
-        transition: all 0.3s ease;
+        transition: max-height 0.4s ease, opacity 0.4s ease, padding 0.4s ease;
     }
 
     .nav-links.open {
-        max-height: 500px;
+        max-height: 1000px;
+        /* big enough to show all links */
         opacity: 1;
         pointer-events: auto;
+        padding: 1rem;
+        /* restore padding when open */
     }
 
     .nav-links li {
         margin-bottom: 0.75rem;
     }
-}
 
+    .nav-links li a {
+        color: black;
+        display: block;
+        /* better clickable area */
+        padding: 0.5rem 0;
+        text-decoration: none;
+    }
+
+    .nav-links li a:hover {
+        color: rgb(171, 16, 16);
+    }
+}
 /* Hero Section */
 .hero {
     background: url('images/hero.jpg') no-repeat center center/cover;
@@ -151,23 +169,21 @@ img {
     content: "";
     position: absolute;
     inset: 0;
-    background-color: rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
     z-index: 2;
     pointer-events: none;
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .hero-content {
     position: relative;
     z-index: 3;
     max-width: 700px;
-    color: #111;
-    text-shadow: 0 0 4px rgba(255, 255, 255, 0.3);
+    color: white;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
 }
 
 .hero h1 {
-    color: rgb(171, 16, 16);
+    color: #ffd400;
     font-size: 2.5rem;
     font-weight: 900;
     margin-bottom: 1rem;
@@ -178,6 +194,7 @@ img {
     margin-bottom: 2rem;
 }
 
+/* Button Section */
 .btn-wrapper {
     position: relative;
     width: 280px;
@@ -192,10 +209,7 @@ img {
     left: 0;
     width: 100vw;
     height: 100vh;
-    object-fit: cover;
-    opacity: 0.4;
-    pointer-events: none;
-    z-index: 0;
+    opacity: 0.8;
 }
 
 .btn {
@@ -212,7 +226,7 @@ img {
 }
 
 .btn:hover {
-    background-color: #444;
+    background-color: black;
 }
 
 /* Content Sections */
@@ -388,6 +402,71 @@ img {
 .next:disabled {
     opacity: 0.3;
     cursor: not-allowed;
+}
+
+/* Catering Section */
+.catering {
+    position: relative;
+    background: url('images/marblebackground.png') no-repeat center center/cover;
+    padding: 4rem 1.5rem;
+    text-align: center;
+    color: white;
+}
+
+.catering::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 0;
+}
+
+.catering * {
+    position: relative;
+    z-index: 1;
+}
+
+.catering h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    font-family: 'Indie Flower', cursive;
+}
+
+.catering p {
+    max-width: 700px;
+    margin: 0 auto 1rem;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.catering-list {
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0;
+}
+
+.catering-list li {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.catering-cta {
+    margin-top: 2rem;
+}
+
+.catering-cta .btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: #d04d2b;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.catering-cta .btn:hover {
+    background-color: #b83f20;
 }
 
 /* Location Section */

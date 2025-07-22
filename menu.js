@@ -1,10 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Declare currentItem to avoid implicit globals
   let currentItem = null;
+  const cart = [];
 
   // --- Hamburger Menu Toggle ---
-  const hamburger = document.querySelector(".menu-toggle");
-  const navLinks = document.querySelector("nav");
+ document.addEventListener("DOMContentLoaded", () => {
+  const hamburger = document.querySelector(".hamburger");
+  const navLinks = document.querySelector(".nav-links");
 
   if (hamburger && navLinks) {
     hamburger.addEventListener("click", () => {
@@ -13,6 +14,26 @@ document.addEventListener("DOMContentLoaded", () => {
       navLinks.classList.toggle("open");
     });
   }
+ });
+  document.querySelectorAll('.nav-links a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Close menu after clicking (optional)
+    const navLinks = document.querySelector('.nav-links');
+    const hamburger = document.querySelector('.hamburger');
+    if (navLinks.classList.contains('open')) {
+      navLinks.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+    }
+  });
+});
+
+
 
   // --- Slider Logic ---
   const sliders = document.querySelectorAll(".slider-container");
@@ -24,15 +45,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!slider || !prevBtn || !nextBtn) return;
 
-    function updateArrows() {
+    const updateArrows = () => {
       const maxScrollLeft = slider.scrollWidth - slider.clientWidth;
       prevBtn.style.display = slider.scrollLeft <= 0 ? "none" : "flex";
       nextBtn.style.display = slider.scrollLeft >= maxScrollLeft - 1 ? "none" : "flex";
-    }
+    };
 
-    function slideBy(offset) {
+    const slideBy = offset => {
       slider.scrollBy({ left: offset, behavior: "smooth" });
-    }
+    };
 
     prevBtn.addEventListener("click", () => slideBy(-itemWidth));
     nextBtn.addEventListener("click", () => slideBy(itemWidth));
@@ -41,13 +62,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let startX = 0, startY = 0, isDragging = false;
 
-    slider.addEventListener("touchstart", (e) => {
+    slider.addEventListener("touchstart", e => {
       startX = e.touches[0].clientX;
       startY = e.touches[0].clientY;
       isDragging = true;
     });
 
-    slider.addEventListener("touchmove", (e) => {
+    slider.addEventListener("touchmove", e => {
       if (!isDragging) return;
       const dx = startX - e.touches[0].clientX;
       const dy = Math.abs(startY - e.touches[0].clientY);
@@ -68,34 +89,30 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // --- Smooth scroll for anchor links ---
+  // --- Smooth Scroll Anchors ---
   document.querySelectorAll('a[href^="#"]').forEach(link => {
     link.addEventListener("click", function (e) {
       const target = document.querySelector(this.getAttribute("href"));
       if (target instanceof HTMLElement) {
         e.preventDefault();
-        window.scrollTo({
-          top: target.offsetTop - 60,
-          behavior: "smooth"
-        });
+        const offset = target.getBoundingClientRect().top + window.pageYOffset - 60;
+        window.scrollTo({ top: offset, behavior: "smooth" });
       }
     });
   });
 
-  // --- Back to top button ---
+  // --- Back to Top ---
   const topBtn = document.getElementById("backToTop");
   window.addEventListener("scroll", () => {
     if (topBtn) {
       topBtn.style.display = window.scrollY > 400 ? "block" : "none";
     }
   });
-  if (topBtn) {
-    topBtn.addEventListener("click", () => {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
-  }
+  topBtn?.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
 
-  // --- Modal Logic ---
+  // --- Modal ---
   const modal = document.getElementById("itemModal");
   const modalName = document.getElementById("modalItemName");
   const modalDescription = document.getElementById("modalItemDescription");
@@ -103,54 +120,66 @@ document.addEventListener("DOMContentLoaded", () => {
   const addToCartBtn = document.getElementById("addToCartBtn");
   const closeBtn = document.querySelector("#itemModal .close-btn");
 
-  // Open modal on add-btn click
-  document.querySelectorAll(".add-btn").forEach(btn => {
-    btn.addEventListener("click", (e) => {
-      const menuItem = e.target.closest(".menu-item");
-      if (!menuItem) return;
+  if (modal && modalName && modalDescription && modalPrice) {
+    document.querySelectorAll(".add-btn").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        const menuItem = e.target.closest(".menu-item");
+        if (!menuItem) return;
 
-      const name = menuItem.dataset.name || menuItem.querySelector(".menu-info")?.innerText.split("\n")[0];
-      const description = menuItem.dataset.description || "No description available.";
-      const price = menuItem.dataset.price || menuItem.querySelector(".menu-info")?.innerText.split("\n")[1];
+        const info = menuItem.querySelector(".menu-info")?.innerText.split("\n") || [];
+        const name = menuItem.dataset.name || info[0] || "Unnamed item";
+        const description = menuItem.dataset.description || "No description available.";
+        const priceRaw = menuItem.dataset.price || info[1] || "$0.00";
+        const price = parseFloat(priceRaw.replace(/[^0-9.]/g, ""));
 
-      modalName.textContent = name;
-      modalDescription.textContent = description;
-      modalPrice.textContent = price;
-      currentItem = { name, description, price: parseFloat(price.replace(/[^0-9.]/g, "")) };
+        if (isNaN(price)) {
+          alert("Invalid price format for this item.");
+          return;
+        }
 
-      modal.classList.remove("hidden");
+        modalName.textContent = name;
+        modalDescription.textContent = description;
+        modalPrice.textContent = `$${price.toFixed(2)}`;
+
+        currentItem = { name, description, price };
+        modal.classList.remove("hidden");
+      });
     });
-  });
 
-  // Close modal on close button
-  if (closeBtn) {
-    closeBtn.addEventListener("click", () => {
-      modal.classList.add("hidden");
-    });
-  }
-  // Close modal when clicking outside modal content
-  if (modal) {
+    closeBtn?.addEventListener("click", () => modal.classList.add("hidden"));
     modal.addEventListener("click", (e) => {
-      if (e.target === modal) {
+      if (e.target === modal) modal.classList.add("hidden");
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !modal.classList.contains("hidden")) {
         modal.classList.add("hidden");
       }
     });
   }
 
-  // Optional: close modal on Escape key
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && modal && !modal.classList.contains("hidden")) {
-      modal.classList.add("hidden");
-    }
-  });
-
-  // --- Cart Logic ---
-  const cart = [];
+  // --- Cart ---
   const cartItemsEl = document.getElementById("cartItems");
   const cartTotalEl = document.getElementById("cartTotal");
   const openCartBtn = document.getElementById("openCartBtn");
   const closeCartBtn = document.getElementById("closeCartBtn");
   const cartEl = document.getElementById("cart");
+
+  function saveCart() {
+    localStorage.setItem("losTacosCart", JSON.stringify(cart));
+  }
+
+  function loadCart() {
+    const saved = localStorage.getItem("losTacosCart");
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        parsed.forEach(i => cart.push(i));
+        updateCartUI();
+      } catch (e) {
+        console.warn("Failed to load saved cart.");
+      }
+    }
+  }
 
   function updateCartUI() {
     if (!cartItemsEl || !cartTotalEl || !openCartBtn || !cartEl) return;
@@ -166,25 +195,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const removeBtn = document.createElement("button");
       removeBtn.textContent = "×";
-      removeBtn.setAttribute("aria-label", `Remove ${item.name} from cart`);
+      removeBtn.setAttribute("aria-label", `Remove ${item.name}`);
       removeBtn.addEventListener("click", () => {
         cart.splice(index, 1);
         updateCartUI();
+        saveCart();
       });
 
       const qtyControls = document.createElement("span");
+      qtyControls.style.margin = "0 10px";
 
       const minusBtn = document.createElement("button");
       minusBtn.textContent = "–";
       minusBtn.setAttribute("aria-label", `Decrease quantity of ${item.name}`);
-      minusBtn.style.marginRight = "5px";
       minusBtn.addEventListener("click", () => {
-        if (item.quantity > 1) {
-          item.quantity--;
-        } else {
-          cart.splice(index, 1);
-        }
+        item.quantity > 1 ? item.quantity-- : cart.splice(index, 1);
         updateCartUI();
+        saveCart();
       });
 
       const plusBtn = document.createElement("button");
@@ -193,35 +220,25 @@ document.addEventListener("DOMContentLoaded", () => {
       plusBtn.addEventListener("click", () => {
         item.quantity++;
         updateCartUI();
+        saveCart();
       });
 
-      qtyControls.appendChild(minusBtn);
-      qtyControls.appendChild(plusBtn);
-
-      li.appendChild(qtyControls);
-      li.appendChild(removeBtn);
-
+      qtyControls.append(minusBtn, plusBtn);
+      li.append(qtyControls, removeBtn);
       cartItemsEl.appendChild(li);
     });
 
     cartTotalEl.textContent = `Total: $${total.toFixed(2)}`;
-    openCartBtn.textContent = `View Cart (${cart.reduce((acc, i) => acc + i.quantity, 0)})`;
+    openCartBtn.textContent = `View Cart (${cart.reduce((sum, i) => sum + i.quantity, 0)})`;
 
-    if (cart.length === 0) {
-      cartEl.classList.add("hidden");
-    } else {
-      cartEl.classList.remove("hidden");
-    }
+    cartEl.classList.toggle("hidden", cart.length === 0);
   }
 
   function addToCart(item) {
-    const existingItem = cart.find(i => i.name === item.name);
-    if (existingItem) {
-      existingItem.quantity++;
-    } else {
-      cart.push({ ...item, quantity: 1 });
-    }
+    const existing = cart.find(i => i.name === item.name);
+    existing ? existing.quantity++ : cart.push({ ...item, quantity: 1 });
     updateCartUI();
+    saveCart();
   }
 
   if (addToCartBtn) {
@@ -232,34 +249,22 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  if (openCartBtn && cartEl) {
-    openCartBtn.addEventListener("click", () => {
-      cartEl.classList.toggle("hidden");
-    });
-  }
+  openCartBtn?.addEventListener("click", () => {
+    cartEl?.classList.toggle("hidden");
+  });
 
-  if (closeCartBtn && cartEl) {
-    closeCartBtn.addEventListener("click", () => {
-      console.log("Close cart clicked");  // Debug log
-      cartEl.classList.add("hidden");
-    });
-  } else {
-    console.warn("closeCartBtn or cartEl not found");
-  }
+  closeCartBtn?.addEventListener("click", () => {
+    cartEl?.classList.add("hidden");
+  });
 
-  const checkoutBtn = document.getElementById("checkoutBtn");
-  if (checkoutBtn) {
-    checkoutBtn.addEventListener("click", () => {
-      if (cart.length === 0) {
-        alert("Your cart is empty!");
-      } else {
-        alert("Checkout is not implemented yet.");
-      }
-    });
-  }
+  document.getElementById("checkoutBtn")?.addEventListener("click", () => {
+    alert(cart.length === 0 ? "Your cart is empty!" : "Checkout is not implemented yet.");
+  });
 
-  updateCartUI();
+  loadCart();
 });
+
+
 
 
 

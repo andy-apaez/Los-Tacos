@@ -104,7 +104,7 @@ nav a:first-child {
     background: var(--nav-link-hover-bg);
 }
 
-.sidebar li:first-child {
+.sidebar li.active {
     background: var(--sidebar-active-bg);
     font-weight: bold;
 }
@@ -204,7 +204,7 @@ nav a:first-child {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     cursor: pointer;
     user-select: none;
-    z-index: 800;
+    z-index: 2000;
 }
 
 .add-btn:focus-visible {
@@ -229,7 +229,7 @@ nav a:first-child {
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    z-index: 10;
+    z-index: 100;
     transition: opacity 0.3s ease;
     user-select: none;
 }
@@ -262,7 +262,7 @@ nav a:first-child {
     border: none;
     cursor: pointer;
     display: none;
-    z-index: 999;
+    z-index: 1050;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     user-select: none;
 }
@@ -364,7 +364,8 @@ nav a:first-child {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1000;
+    z-index: 1100;
+    transition: opacity 0.3s ease;
 }
 
 .modal.hidden {
@@ -395,7 +396,7 @@ nav a:first-child {
     color: var(--primary-color);
 }
 
-/* --- Cart Container --- */
+/* Cart */
 .cart {
     background: #fff;
     border-radius: 16px;
@@ -411,7 +412,7 @@ nav a:first-child {
     transition: all 0.3s ease-in-out;
 }
 
-/* --- Cart Items List --- */
+/* Cart Items */
 #cartItems {
     list-style: none;
     margin: 0;
@@ -431,7 +432,7 @@ nav a:first-child {
     gap: 0.4rem;
 }
 
-/* --- Quantity Controls --- */
+/* Quantity Controls */
 #cartItems button {
     background: #eee;
     border: none;
@@ -447,7 +448,6 @@ nav a:first-child {
     background: #ddd;
 }
 
-/* --- Remove Button (X) --- */
 #cartItems li button:last-child {
     align-self: flex-end;
     background: #ff6961;
@@ -461,14 +461,14 @@ nav a:first-child {
     background: #e55851;
 }
 
-/* --- Cart Total --- */
+/* Cart Total */
 #cartTotal {
     font-weight: bold;
     margin-bottom: 1rem;
     text-align: right;
 }
 
-/* --- Checkout Button --- */
+/* Checkout Button */
 #checkoutBtn {
     display: block;
     width: 100%;
