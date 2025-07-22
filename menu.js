@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const cart = [];
 
   // --- Hamburger Menu Toggle ---
- document.addEventListener("DOMContentLoaded", () => {
   const hamburger = document.querySelector(".hamburger");
   const navLinks = document.querySelector(".nav-links");
 
@@ -14,26 +13,23 @@ document.addEventListener("DOMContentLoaded", () => {
       navLinks.classList.toggle("open");
     });
   }
- });
+
+  // --- Smooth scroll for nav links (and close mobile menu on click) ---
   document.querySelectorAll('.nav-links a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function (e) {
-    e.preventDefault();
-    const target = document.querySelector(this.getAttribute('href'));
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth' });
-    }
+    anchor.addEventListener("click", function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute("href"));
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth" });
+      }
 
-    // Close menu after clicking (optional)
-    const navLinks = document.querySelector('.nav-links');
-    const hamburger = document.querySelector('.hamburger');
-    if (navLinks.classList.contains('open')) {
-      navLinks.classList.remove('open');
-      hamburger.setAttribute('aria-expanded', 'false');
-    }
+      // Close mobile menu if open
+      if (navLinks.classList.contains("open")) {
+        navLinks.classList.remove("open");
+        hamburger.setAttribute("aria-expanded", "false");
+      }
+    });
   });
-});
-
-
 
   // --- Slider Logic ---
   const sliders = document.querySelectorAll(".slider-container");
@@ -89,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // --- Smooth Scroll Anchors ---
+  // --- Smooth Scroll Anchors (general) ---
   document.querySelectorAll('a[href^="#"]').forEach(link => {
     link.addEventListener("click", function (e) {
       const target = document.querySelector(this.getAttribute("href"));
@@ -101,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // --- Back to Top ---
+  // --- Back to Top Button ---
   const topBtn = document.getElementById("backToTop");
   window.addEventListener("scroll", () => {
     if (topBtn) {
@@ -209,7 +205,11 @@ document.addEventListener("DOMContentLoaded", () => {
       minusBtn.textContent = "–";
       minusBtn.setAttribute("aria-label", `Decrease quantity of ${item.name}`);
       minusBtn.addEventListener("click", () => {
-        item.quantity > 1 ? item.quantity-- : cart.splice(index, 1);
+        if (item.quantity > 1) {
+          item.quantity--;
+        } else {
+          cart.splice(index, 1);
+        }
         updateCartUI();
         saveCart();
       });
@@ -236,7 +236,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function addToCart(item) {
     const existing = cart.find(i => i.name === item.name);
-    existing ? existing.quantity++ : cart.push({ ...item, quantity: 1 });
+    if (existing) {
+      existing.quantity++;
+    } else {
+      cart.push({ ...item, quantity: 1 });
+    }
     updateCartUI();
     saveCart();
   }
@@ -261,6 +265,7 @@ document.addEventListener("DOMContentLoaded", () => {
     alert(cart.length === 0 ? "Your cart is empty!" : "Checkout is not implemented yet.");
   });
 
+  // Load saved cart on start
   loadCart();
 });
 
