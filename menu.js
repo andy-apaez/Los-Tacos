@@ -1,35 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
   let currentItem = null;
-  const cart = [];
 
   // --- Hamburger Menu Toggle ---
-  const hamburger = document.querySelector(".hamburger");
-  const navLinks = document.querySelector(".nav-links");
-
-  if (hamburger && navLinks) {
+  const hamburger = document.querySelector(".menu-toggle");
+  if (hamburger) {
     hamburger.addEventListener("click", () => {
       const expanded = hamburger.getAttribute("aria-expanded") === "true";
       hamburger.setAttribute("aria-expanded", String(!expanded));
-      navLinks.classList.toggle("open");
+      document.body.classList.toggle("nav-open");
     });
   }
-
-  // --- Smooth scroll for nav links (and close mobile menu on click) ---
-  document.querySelectorAll('.nav-links a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener("click", function (e) {
-      e.preventDefault();
-      const target = document.querySelector(this.getAttribute("href"));
-      if (target) {
-        target.scrollIntoView({ behavior: "smooth" });
-      }
-
-      // Close mobile menu if open
-      if (navLinks.classList.contains("open")) {
-        navLinks.classList.remove("open");
-        hamburger.setAttribute("aria-expanded", "false");
-      }
-    });
-  });
 
   // --- Slider Logic ---
   const sliders = document.querySelectorAll(".slider-container");
@@ -85,19 +65,21 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // --- Smooth Scroll Anchors (general) ---
+  // --- Smooth Scroll Anchors ---
   document.querySelectorAll('a[href^="#"]').forEach(link => {
     link.addEventListener("click", function (e) {
       const target = document.querySelector(this.getAttribute("href"));
       if (target instanceof HTMLElement) {
         e.preventDefault();
-        const offset = target.getBoundingClientRect().top + window.pageYOffset - 60;
-        window.scrollTo({ top: offset, behavior: "smooth" });
+        window.scrollTo({
+          top: target.offsetTop - 60,
+          behavior: "smooth"
+        });
       }
     });
   });
 
-  // --- Back to Top Button ---
+  // --- Back to Top ---
   const topBtn = document.getElementById("backToTop");
   window.addEventListener("scroll", () => {
     if (topBtn) {
@@ -116,66 +98,58 @@ document.addEventListener("DOMContentLoaded", () => {
   const addToCartBtn = document.getElementById("addToCartBtn");
   const closeBtn = document.querySelector("#itemModal .close-btn");
 
-  if (modal && modalName && modalDescription && modalPrice) {
-    document.querySelectorAll(".add-btn").forEach(btn => {
-      btn.addEventListener("click", (e) => {
-        const menuItem = e.target.closest(".menu-item");
-        if (!menuItem) return;
+  document.querySelectorAll(".add-btn").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      const menuItem = e.target.closest(".menu-item");
+      if (!menuItem || !modal || !modalName || !modalDescription || !modalPrice) return;
 
-        const info = menuItem.querySelector(".menu-info")?.innerText.split("\n") || [];
-        const name = menuItem.dataset.name || info[0] || "Unnamed item";
-        const description = menuItem.dataset.description || "No description available.";
-        const priceRaw = menuItem.dataset.price || info[1] || "$0.00";
-        const price = parseFloat(priceRaw.replace(/[^0-9.]/g, ""));
+      const info = menuItem.querySelector(".menu-info")?.innerText.split("\n") || [];
+      const name = menuItem.dataset.name || info[0] || "Unnamed item";
+      const description = menuItem.dataset.description || "No description available.";
+      const priceRaw = menuItem.dataset.price || info[1] || "$0.00";
 
-        if (isNaN(price)) {
-          alert("Invalid price format for this item.");
-          return;
-        }
+      modalName.textContent = name;
+      modalDescription.textContent = description;
+      modalPrice.textContent = priceRaw;
 
-        modalName.textContent = name;
-        modalDescription.textContent = description;
-        modalPrice.textContent = `$${price.toFixed(2)}`;
+      currentItem = {
+        name,
+        description,
+        price: parseFloat(priceRaw.replace(/[^0-9.]/g, "")) || 0
+      };
 
-        currentItem = { name, description, price };
-        modal.classList.remove("hidden");
-      });
+      modal.classList.remove("hidden");
+      document.body.classList.add("modal-open");
+      window.scrollTo({ top: 0, behavior: "smooth" });
     });
+  });
 
-    closeBtn?.addEventListener("click", () => modal.classList.add("hidden"));
-    modal.addEventListener("click", (e) => {
-      if (e.target === modal) modal.classList.add("hidden");
-    });
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && !modal.classList.contains("hidden")) {
-        modal.classList.add("hidden");
-      }
-    });
-  }
+  closeBtn?.addEventListener("click", () => {
+    modal?.classList.add("hidden");
+    document.body.classList.remove("modal-open");
+  });
+
+  modal?.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      modal.classList.add("hidden");
+      document.body.classList.remove("modal-open");
+    }
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal && !modal.classList.contains("hidden")) {
+      modal.classList.add("hidden");
+      document.body.classList.remove("modal-open");
+    }
+  });
 
   // --- Cart ---
+  const cart = [];
   const cartItemsEl = document.getElementById("cartItems");
   const cartTotalEl = document.getElementById("cartTotal");
   const openCartBtn = document.getElementById("openCartBtn");
   const closeCartBtn = document.getElementById("closeCartBtn");
   const cartEl = document.getElementById("cart");
-
-  function saveCart() {
-    localStorage.setItem("losTacosCart", JSON.stringify(cart));
-  }
-
-  function loadCart() {
-    const saved = localStorage.getItem("losTacosCart");
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        parsed.forEach(i => cart.push(i));
-        updateCartUI();
-      } catch (e) {
-        console.warn("Failed to load saved cart.");
-      }
-    }
-  }
 
   function updateCartUI() {
     if (!cartItemsEl || !cartTotalEl || !openCartBtn || !cartEl) return;
@@ -191,27 +165,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const removeBtn = document.createElement("button");
       removeBtn.textContent = "×";
+      removeBtn.classList.add("remove-item");
       removeBtn.setAttribute("aria-label", `Remove ${item.name}`);
       removeBtn.addEventListener("click", () => {
         cart.splice(index, 1);
         updateCartUI();
-        saveCart();
       });
 
       const qtyControls = document.createElement("span");
-      qtyControls.style.margin = "0 10px";
+      qtyControls.classList.add("quantity-controls");
 
       const minusBtn = document.createElement("button");
       minusBtn.textContent = "–";
       minusBtn.setAttribute("aria-label", `Decrease quantity of ${item.name}`);
       minusBtn.addEventListener("click", () => {
-        if (item.quantity > 1) {
-          item.quantity--;
-        } else {
-          cart.splice(index, 1);
-        }
+        item.quantity > 1 ? item.quantity-- : cart.splice(index, 1);
         updateCartUI();
-        saveCart();
       });
 
       const plusBtn = document.createElement("button");
@@ -220,7 +189,6 @@ document.addEventListener("DOMContentLoaded", () => {
       plusBtn.addEventListener("click", () => {
         item.quantity++;
         updateCartUI();
-        saveCart();
       });
 
       qtyControls.append(minusBtn, plusBtn);
@@ -236,22 +204,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function addToCart(item) {
     const existing = cart.find(i => i.name === item.name);
-    if (existing) {
-      existing.quantity++;
-    } else {
-      cart.push({ ...item, quantity: 1 });
-    }
+    existing ? existing.quantity++ : cart.push({ ...item, quantity: 1 });
     updateCartUI();
-    saveCart();
   }
 
-  if (addToCartBtn) {
-    addToCartBtn.addEventListener("click", () => {
-      if (!currentItem) return;
-      addToCart(currentItem);
-      modal.classList.add("hidden");
-    });
-  }
+  addToCartBtn?.addEventListener("click", () => {
+    if (!currentItem) return;
+    addToCart(currentItem);
+    modal?.classList.add("hidden");
+    document.body.classList.remove("modal-open");
+  });
 
   openCartBtn?.addEventListener("click", () => {
     cartEl?.classList.toggle("hidden");
@@ -265,23 +227,5 @@ document.addEventListener("DOMContentLoaded", () => {
     alert(cart.length === 0 ? "Your cart is empty!" : "Checkout is not implemented yet.");
   });
 
-  // Load saved cart on start
-  loadCart();
+  updateCartUI();
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

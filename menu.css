@@ -192,13 +192,13 @@ nav a:first-child {
 }
 
 /* Add Button */
-.add-btn {
+.menu-item .add-btn {
     position: absolute;
     bottom: 10px;
     right: 10px;
     padding: 0.6rem;
     font-size: 1.2rem;
-    background: #fff;
+    background: ##b71c1c;
     border: 1px solid #ccc;
     border-radius: 50%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -207,8 +207,42 @@ nav a:first-child {
     z-index: 2000;
 }
 
+.modal .add-btn {
+    position: static;
+    box-shadow: none;
+    border: none;
+    background: transparent;
+    padding: 0;
+    font-size: inherit;
+    z-index: auto;
+}
+.add-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary-color, #d62828);
+    /* Use your theme color */
+    color: white;
+    font-size: 1.25rem;
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.add-btn:hover {
+    background-color: #b71c1c;
+    /* slightly darker for hover */
+}
+
+.add-btn:active {
+    transform: scale(0.95);
+}
+
 .add-btn:focus-visible {
-    outline: 2px solid var(--primary-color);
+    outline: 2px solid #000;
     outline-offset: 2px;
 }
 
@@ -373,27 +407,83 @@ nav a:first-child {
 }
 
 .modal-content {
-    background: white;
-    padding: 20px 30px;
-    border-radius: 8px;
-    width: 90%;
     max-width: 400px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    margin: auto;
+    padding: 1.5rem;
+    background: #fff;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
     position: relative;
+}
+
+.modal-img {
+    width: 100%;
+    max-height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.modal-price {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.quantity-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.qty-controls {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.qty-controls button {
+    width: 32px;
+    height: 32px;
+    font-size: 1.2rem;
+    border: none;
+    background: #eee;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.special-instructions {
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    resize: vertical;
+    min-height: 80px;
+}
+
+.add-to-cart-btn {
+    padding: 1rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: white;
+    background: var(--primary-color, #d62828);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.add-to-cart-btn:hover {
+    background: #b32121;
 }
 
 .close-btn {
     position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 24px;
+    top: 12px;
+    right: 12px;
+    font-size: 1.5rem;
+    background: transparent;
+    border: none;
     cursor: pointer;
-    transition: transform 0.2s ease, color 0.2s ease;
-}
-
-.close-btn:hover {
-    transform: scale(1.1);
-    color: var(--primary-color);
 }
 
 /* Cart */
@@ -460,6 +550,11 @@ nav a:first-child {
 #cartItems li button:last-child:hover {
     background: #e55851;
 }
+
+.hidden {
+  display: none !important;
+}
+
 
 /* Cart Total */
 #cartTotal {

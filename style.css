@@ -1,3 +1,4 @@
+
 /* Font */
 .indie-flower-regular {
     font-family: "Indie Flower", cursive;
@@ -42,6 +43,7 @@ img {
     z-index: 10;
 }
 
+/* === Navigation Styles === */
 .nav-container {
     display: flex;
     justify-content: space-between;
@@ -66,7 +68,6 @@ img {
 
 .hamburger {
     display: none;
-    /* Hidden on desktop */
     font-size: 2rem;
     background: none;
     border: none;
@@ -75,18 +76,11 @@ img {
     z-index: 1001;
 }
 
-/* Nav Styles */
-.nav {
-    position: relative;
-    z-index: 10;
-}
-
+/* Default desktop nav */
 .nav-links {
-    display: none;
-    /* Hidden on desktop */
     list-style: none;
-    margin: 0;
-    padding: 0;
+    display: flex;
+    gap: 1.5rem;
 }
 
 .nav-links li a {
@@ -100,39 +94,36 @@ img {
     color: #ddd;
 }
 
-/* MOBILE MENU */
+/* === Mobile Navigation === */
 @media (max-width: 768px) {
     .hamburger {
         display: block;
-        /* Show hamburger on mobile */
     }
 
     .nav-links {
-        display: flex !important;
+        flex-direction: column;
         position: absolute;
         top: 100%;
         right: 1.5rem;
         background-color: white;
-        flex-direction: column;
         width: 200px;
-        padding: 0;
-        /* Start padding 0 for animation */
         border: 1px solid #ddd;
         border-radius: 6px;
+        padding: 0;
         max-height: 0;
         overflow: hidden;
         opacity: 0;
         pointer-events: none;
         transition: max-height 0.4s ease, opacity 0.4s ease, padding 0.4s ease;
+        z-index: 999;
     }
 
     .nav-links.open {
-        max-height: 1000px;
-        /* big enough to show all links */
+        max-height: 500px;
+        /* large enough to reveal all links */
+        padding: 1rem;
         opacity: 1;
         pointer-events: auto;
-        padding: 1rem;
-        /* restore padding when open */
     }
 
     .nav-links li {
@@ -142,7 +133,6 @@ img {
     .nav-links li a {
         color: black;
         display: block;
-        /* better clickable area */
         padding: 0.5rem 0;
         text-decoration: none;
     }
