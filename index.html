@@ -14,34 +14,34 @@
 </head>
 
 <body>
-<header class="header" role="banner">
-    <div class="nav-container">
-        <div class="logo">
-            <img src="images/logo.png" alt="Los Tacos Logo" />
+    <header class="header" role="banner">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="images/logo.png" alt="Los Tacos Logo" />
+            </div>
+
+            <h1 class="nav-title">LOS TACOS</h1>
+
+            <nav class="nav" role="navigation" aria-label="Primary Navigation" id="primary-navigation">
+                <ul class="nav-links">
+                    <li><a href="menu.html" class="btn" aria-label="View Menu">Menu</a></li>
+                </ul>
+            </nav>
+
+            <button class="hamburger" aria-label="Toggle Navigation" aria-expanded="false"
+                aria-controls="primary-navigation">
+                ☰
+            </button>
         </div>
+    </header>
 
-        <h1 class="nav-title">LOS TACOS</h1>
-
-        <nav class="nav" role="navigation" aria-label="Primary Navigation" id="primary-navigation">
-            <ul class="nav-links">
-                <li><a href="menu.html" class="btn" aria-label="View Menu">Menu</a></li>
-            </ul>
-        </nav>
-
-        <button class="hamburger" aria-label="Toggle Navigation" aria-expanded="false"
-            aria-controls="primary-navigation">☰</button>
-    </div>
-</header>
-
-<section class="fullscreen-slider" role="region" aria-label="Showcase Slider">
-    <div class="slide active" style="background-image: url('images/aboutus.jpg');"></div>
-    <div class="slide" style="background-image: url('images/Enchi.jpg');"></div>
-    <div class="slide" style="background-image: url('images/burger.jpg');"></div>
-    <button class="prev-slide" aria-label="Previous Slide">&#10094;</button>
-    <button class="next-slide" aria-label="Next Slide">&#10095;</button>
-</section>
-
-
+    <section class="fullscreen-slider" role="region" aria-label="Showcase Slider">
+        <div class="slide active" style="background-image: url('images/aboutus.jpg');"></div>
+        <div class="slide" style="background-image: url('images/Enchi.jpg');"></div>
+        <div class="slide" style="background-image: url('images/burger.jpg');"></div>
+        <button class="prev-slide" aria-label="Previous Slide">&#10094;</button>
+        <button class="next-slide" aria-label="Next Slide">&#10095;</button>
+    </section>
 
     <section id="about" class="about" role="region" aria-labelledby="about-title">
         <h2 id="about-title">About Us</h2>
@@ -49,38 +49,10 @@
         <p>From birria tacos to enchiladas, everything is made with fresh ingredients and love.</p>
     </section>
 
-<section class="showcase" role="region" aria-label="Featured Dishes">
-    <div class="slider-wrapper">
-        <button class="slider-btn prev" aria-label="Previous Slide">‹</button>
-        <div class="slider-container" tabindex="0">
-            <div class="slider">
-                <figure class="showcase-image">
-                    <img src="images/Enchi.jpg" alt="Enchiladas plate" />
-                    <figcaption>Enchiladas Plate</figcaption>
-                </figure>
-                <figure class="showcase-image">
-                    <img src="images/birriaslider.png" alt="Birria tacos" />
-                    <figcaption>Birria Tacos</figcaption>
-                </figure>
-                <figure class="showcase-image">
-                    <img src="images/arabe.png" alt="Taco Árabe with lime" />
-                    <figcaption>Taco Árabe with lime</figcaption>
-                </figure>
-                <figure class="showcase-image">
-                    <img src="images/stfajitas.png" alt="Stuffed fajitas with peppers" />
-                    <figcaption>Stuffed fajitas with peppers</figcaption>
-                </figure>
-                <figure class="showcase-image">
-                    <img src="images/vburrito.png" alt="Vegetarian burrito" />
-                    <figcaption>Vegetarian Burrito</figcaption>
-                </figure>
-                <figure class="showcase-image">
-                    <img src="images/Nachos.png" alt="Loaded nachos with cheese" />
-                    <figcaption>Loaded nachos with cheese</figcaption>
-                </figure>
-            </div>
-        </div>
-        <button class="slider-btn next" aria-label="Next Slide">›</button>
+<section class="showcase-window" role="region" aria-label="Featured Image Window">
+    <div class="window-overlay">
+        <h2>Featured Dish</h2>
+        <p>Birria Tacos</p>
     </div>
 </section>
 
@@ -99,12 +71,11 @@
                 <li>📦 Pickup &amp; Delivery Available</li>
             </ul>
             <div class="catering-cta">
-                <a href="/catering/catering.html" class="btn btn-primary" aria-label="View Catering Options">View Catering
+                <a href="catering.html" class="btn btn-primary" aria-label="View Catering Options">View Catering
                     Options</a>
             </div>
         </div>
     </section>
-
 
     <section class="location-info" role="region" aria-labelledby="location-title">
         <h2 id="location-title" class="section-title">Visit Us</h2>
@@ -116,14 +87,14 @@
                     <p><span class="icon" aria-hidden="true">📍</span> 7411 15th Ave, Brooklyn, NY 11228</p>
                     <p><span class="icon" aria-hidden="true">📞</span> <a href="tel:+19175551234">(917) 933-4211</a></p>
                     <p><span class="icon" aria-hidden="true">🧭</span> <a
-                            href="https://www.google.com/maps/place/Los+Tacos/@40.6178676,-74.0050351,17z/data=!3m1!4b1!4m6!3m5!1s0x89c2452754209291:0xb7c7927e1549051b!8m2!3d40.6178676!4d-74.0024602!16s%2Fg%2F11x5h6yfxt?entry=ttu&g_ep=EgoyMDI1MDcwOS4wIKXMDSoASAFQAw%3D%3D"
+                            href="https://www.google.com/maps/place/Los+Tacos/@40.6178676,-74.0050351,17z/data=!3m1!4b1!4m6!3m5!1s0x89c2452754209291:0xb7c7927e1549051b!8m2!3d40.6178676!4d-74.0024602!16s%2Fg%2F11x5h6yfxt?entry=ttu"
                             target="_blank" rel="noopener noreferrer">Get directions</a></p>
                 </address>
                 <p class="desc">
                     Come dine with us and try our traditional Mexican style food!!
                 </p>
             </div>
-    
+
             <div class="info-right">
                 <h4>OPENING HOURS</h4>
                 <ul class="hours">
@@ -131,7 +102,7 @@
                     <li><strong>FRI–SAT:</strong> 5:00 PM – 1:00 AM</li>
                     <li><strong>SUN:</strong> 5:00 PM – 1:00 AM</li>
                 </ul>
-    
+
                 <h4>FACILITIES</h4>
                 <ul class="facilities">
                     <li>✔️ Fast Casual</li>
@@ -141,7 +112,6 @@
             </div>
         </div>
     </section>
-
 
     <section id="contact" class="contact" role="region" aria-labelledby="contact-title">
         <h2 id="contact-title" class="sr-only">Contact Information</h2>

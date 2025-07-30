@@ -4,22 +4,15 @@
 /* Root Theme */
 :root {
     --primary-color: #3d2b1f;
-    /* deep brown */
     --secondary-color: #c6a663;
-    /* muted gold */
     --background-color: #fefcf8;
-    /* very light cream */
     --text-color: #2e2a26;
-    /* soft dark */
     --accent-color: #b39240;
-    /* gold highlight */
     --overlay-dark: rgba(61, 43, 31, 0.75);
-    /* dark warm overlay */
     --font-serif: 'Playfair Display', serif;
     --font-sans: 'Inter', sans-serif;
 }
 
-/* Reset & Base */
 *,
 *::before,
 *::after {
@@ -89,7 +82,6 @@ img:hover,
 .hero {
     background: linear-gradient(to bottom, rgba(61, 43, 31, 0.55), rgba(61, 43, 31, 0.85)), url('images/hero.jpg') no-repeat center center/cover;
     padding-top: 200px;
-    /* space for nav */
     min-height: 100vh;
     display: flex;
     align-items: flex-start;
@@ -168,7 +160,6 @@ img:hover,
     position: relative;
     display: inline-block;
     padding: 1rem 2rem;
-    /* space around button */
     border-radius: 50px;
     overflow: visible;
     cursor: pointer;
@@ -180,20 +171,15 @@ img:hover,
     top: 50%;
     left: 50%;
     width: 120px;
-    /* adjust size */
     height: 120px;
-    /* adjust size */
     background-image: url('images/Chorizo.png');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
     opacity: 0.15;
-    /* subtle transparency */
     transform: translate(-50%, -50%);
     pointer-events: none;
-    /* so it doesn't block clicks */
     border-radius: 50%;
-    /* if you want it circular */
     filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.1));
     z-index: 0;
 }
@@ -203,7 +189,6 @@ img:hover,
     z-index: 1;
 }
 
-/* Navigation */
 .header {
     position: fixed;
     top: 0;
@@ -359,129 +344,65 @@ section {
     line-height: 1.6;
 }
 
-/* Showcase Slider */
-.showcase {
-    text-align: center;
-}
-
-.showcase {
-    padding: 2rem 1rem;
-    background: #fff;
-    max-width: 1200px;
-    margin: 3rem auto;
+/* Showcase Window Replacement */
+.showcase-window {
     position: relative;
-}
-
-.slider-wrapper {
-    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-image: url('images/birria.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
     display: flex;
     align-items: center;
-}
-
-.slider-container {
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    scroll-behavior: smooth;
-    width: 100%;
-    outline: none;
-    padding: 0 1rem;
-}
-
-.slider {
-    display: flex;
-    gap: 1.5rem;
-}
-
-.showcase-image {
-    flex: 0 0 280px;
-    scroll-snap-align: start;
-    border-radius: 15px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-    overflow: hidden;
-    background: #000;
-    position: relative;
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.showcase-image img {
-    width: 100%;
-    height: auto;
-    display: block;
-    transition: transform 0.3s ease;
-}
-
-.showcase-image:hover {
-    transform: scale(1.05);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-}
-
-.showcase-image:hover img {
-    transform: scale(1.1);
-}
-
-.showcase-image figcaption {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
-    color: white;
-    font-family: 'Indie Flower', cursive;
-    font-size: 1.1rem;
-    padding: 0.8rem 1rem;
+    justify-content: center;
     text-align: center;
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
-    user-select: none;
-}
-
-/* Slider navigation buttons */
-.slider-btn {
-    background: rgba(61, 43, 31, 0.7);
-    border: none;
+    overflow: hidden;
     color: #fff;
-    font-size: 2.5rem;
-    cursor: pointer;
-    padding: 0 12px;
-    border-radius: 50%;
-    user-select: none;
-    transition: background 0.3s ease;
-    z-index: 10;
-    flex-shrink: 0;
 }
 
-.slider-btn:hover,
-.slider-btn:focus {
-    background: var(--secondary-color);
-    outline: none;
+.window-overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 2rem 3rem;
+    border-radius: 12px;
+    backdrop-filter: blur(4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
-.slider-btn.prev {
-    margin-right: 8px;
+.window-overlay h2 {
+    font-family: var(--font-serif);
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    color: #fff;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
 }
 
-.slider-btn.next {
-    margin-left: 8px;
+.window-overlay p {
+    font-family: var(--font-sans);
+    font-size: 1.25rem;
+    color: #f1e9dc;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-/* Hide buttons on mobile */
 @media (max-width: 768px) {
-    .slider-btn {
-        display: none;
+    .showcase-window {
+        height: 70vh;
+        background-attachment: scroll;
     }
 
-    .showcase-image {
-        flex: 0 0 80vw;
+    .window-overlay {
+        padding: 1.5rem 2rem;
+    }
+
+    .window-overlay h2 {
+        font-size: 2rem;
+    }
+
+    .window-overlay p {
+        font-size: 1rem;
     }
 }
 
-@media (max-width: 480px) {
-    .showcase-image {
-        flex: 0 0 90vw;
-    }
-}
 
 /* Contact Section */
 .contact {
@@ -527,7 +448,6 @@ footer a:focus {
 .location-info {
     background-color: #f9f7f1;
     color: #3d2b1f;
-    /* Primary dark brown */
     max-width: 1100px;
     margin: 3rem auto;
     padding: 3rem 2rem;
@@ -569,7 +489,6 @@ footer a:focus {
     font-family: 'Playfair Display', serif;
     font-size: 1.25rem;
     color: #c89f53;
-    /* Accent gold */
     margin-bottom: 1rem;
 }
 
@@ -589,7 +508,6 @@ footer a:focus {
 .info-left a:hover,
 .info-left a:focus {
     color: #d4af37;
-    /* Secondary gold */
     text-decoration: underline;
 }
 
