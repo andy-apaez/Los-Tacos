@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // --- Slider Logic ---
+  // --- Slider Logic (horizontal sliders for menu sections) ---
   const sliders = document.querySelectorAll(".slider-container");
   sliders.forEach(container => {
     const slider = container.querySelector(".slider");
@@ -21,20 +21,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!slider || !prevBtn || !nextBtn) return;
 
-    const updateArrows = () => {
-      const maxScrollLeft = slider.scrollWidth - slider.clientWidth;
-      prevBtn.style.display = slider.scrollLeft <= 0 ? "none" : "flex";
-      nextBtn.style.display = slider.scrollLeft >= maxScrollLeft - 1 ? "none" : "flex";
-    };
-
     const slideBy = offset => {
       slider.scrollBy({ left: offset, behavior: "smooth" });
     };
 
     prevBtn.addEventListener("click", () => slideBy(-itemWidth));
     nextBtn.addEventListener("click", () => slideBy(itemWidth));
-    slider.addEventListener("scroll", updateArrows);
-    updateArrows();
 
     let startX = 0, startY = 0, isDragging = false;
 
@@ -61,7 +53,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     slider.addEventListener("touchend", () => {
       isDragging = false;
-      updateArrows();
     });
   });
 
@@ -228,4 +219,34 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   updateCartUI();
+
+  // --- Fullscreen Fading Image Slider ---
+  const slides = document.querySelectorAll(".fullscreen-slider .slide");
+  const prevSlideBtn = document.querySelector(".fullscreen-slider .prev-slide");
+  const nextSlideBtn = document.querySelector(".fullscreen-slider .next-slide");
+  let currentSlide = 0;
+
+  if (slides.length > 0) {
+    const showSlide = (index) => {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle("active", i === index);
+      });
+    };
+
+    const next = () => {
+      currentSlide = (currentSlide + 1) % slides.length;
+      showSlide(currentSlide);
+    };
+
+    const prev = () => {
+      currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+      showSlide(currentSlide);
+    };
+
+    nextSlideBtn?.addEventListener("click", next);
+    prevSlideBtn?.addEventListener("click", prev);
+
+    showSlide(currentSlide);
+    setInterval(next, 6000);
+  }
 });
