@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentItem = null;
 
   // --- Hamburger Menu Toggle ---
-document.addEventListener("DOMContentLoaded", () => {
   const hamburger = document.querySelector(".hamburger");
   const navLinks = document.querySelector(".nav-links");
 
@@ -10,13 +9,10 @@ document.addEventListener("DOMContentLoaded", () => {
     hamburger.addEventListener("click", () => {
       const expanded = hamburger.getAttribute("aria-expanded") === "true";
       hamburger.setAttribute("aria-expanded", String(!expanded));
-
       navLinks.classList.toggle("open");
       document.body.classList.toggle("nav-open");
     });
   }
-});
-
 
   // --- Slider Logic (horizontal sliders for menu sections) ---
   const sliders = document.querySelectorAll(".slider-container");
@@ -60,12 +56,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // --- Back to Top ---
+  // --- Back to Top Button ---
   const topBtn = document.getElementById("backToTop");
-  window.addEventListener("scroll", () => {
-    if (topBtn) topBtn.style.display = window.scrollY > 400 ? "block" : "none";
-  });
-  topBtn?.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+  if (topBtn) {
+    window.addEventListener("scroll", () => {
+      topBtn.style.display = window.scrollY > 400 ? "block" : "none";
+    });
+    topBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+  }
 
   // --- Modal & Cart Logic ---
   const modal = document.getElementById("itemModal");
@@ -73,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalDescription = document.getElementById("modalItemDescription");
   const modalPrice = document.getElementById("modalItemPrice");
   const addToCartBtn = document.getElementById("addToCartBtn");
-  const closeBtn = document.querySelector("#itemModal .close-btn");
+  const closeBtn = modal?.querySelector(".close-btn");
 
   document.querySelectorAll(".add-btn").forEach(btn => {
     btn.addEventListener("click", (e) => {
@@ -86,7 +84,11 @@ document.addEventListener("DOMContentLoaded", () => {
       modalName.textContent = name;
       modalDescription.textContent = description;
       modalPrice.textContent = priceRaw;
-      currentItem = { name, description, price: parseFloat(priceRaw.replace(/[^0-9.]/g, "")) || 0 };
+      currentItem = {
+        name,
+        description,
+        price: parseFloat(priceRaw.replace(/[^0-9.]/g, "")) || 0
+      };
       modal.classList.remove("hidden");
       document.body.classList.add("modal-open");
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -127,6 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
       total += item.price * item.quantity;
       const li = document.createElement("li");
       li.textContent = `${item.name} x${item.quantity} - $${(item.price * item.quantity).toFixed(2)}`;
+
       const removeBtn = document.createElement("button");
       removeBtn.textContent = "×";
       removeBtn.classList.add("remove-item");
@@ -135,13 +138,16 @@ document.addEventListener("DOMContentLoaded", () => {
         cart.splice(index, 1);
         updateCartUI();
       });
+
       const minusBtn = document.createElement("button");
       minusBtn.textContent = "–";
       minusBtn.setAttribute("aria-label", `Decrease quantity of ${item.name}`);
       minusBtn.addEventListener("click", () => {
-        item.quantity > 1 ? item.quantity-- : cart.splice(index, 1);
+        if (item.quantity > 1) item.quantity--;
+        else cart.splice(index, 1);
         updateCartUI();
       });
+
       const plusBtn = document.createElement("button");
       plusBtn.textContent = "+";
       plusBtn.setAttribute("aria-label", `Increase quantity of ${item.name}`);
@@ -149,9 +155,11 @@ document.addEventListener("DOMContentLoaded", () => {
         item.quantity++;
         updateCartUI();
       });
+
       const qtyControls = document.createElement("span");
       qtyControls.classList.add("quantity-controls");
       qtyControls.append(minusBtn, plusBtn);
+
       li.append(qtyControls, removeBtn);
       cartItemsEl.appendChild(li);
     });
@@ -180,6 +188,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   openCartBtn?.addEventListener("click", () => cartEl?.classList.toggle("hidden"));
   closeCartBtn?.addEventListener("click", () => cartEl?.classList.add("hidden"));
+
   document.getElementById("checkoutBtn")?.addEventListener("click", () => {
     alert(cart.length === 0 ? "Your cart is empty!" : "Checkout is not implemented yet.");
   });
@@ -209,6 +218,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     nextSlideBtn?.addEventListener("click", next);
     prevSlideBtn?.addEventListener("click", prev);
+
     showSlide(currentSlide);
     setInterval(next, 6000);
   }

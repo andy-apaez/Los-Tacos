@@ -14,31 +14,32 @@
 </head>
 
 <body>
-<header class="header" role="banner">
-    <div class="nav-container">
-        <div class="logo">
-            <img src="images/logo.png" alt="Los Tacos Logo" />
+    <header class="header" role="banner">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="images/logo.png" alt="Los Tacos Logo" />
+            </div>
+
+            <h1 class="nav-title">LOS TACOS</h1>
+
+            <button class="hamburger" aria-label="Toggle Navigation" aria-expanded="false"
+                aria-controls="primary-navigation">
+                ☰
+            </button>
+
+            <nav class="main-nav" id="primary-navigation" aria-label="Main Navigation">
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="menu.html">Menu</a></li>
+                    <li><a href="#catering">Catering</a></li>
+                    <li><a href="#location-title">Location</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
         </div>
+    </header>
 
-        <h1 class="nav-title">LOS TACOS</h1>
-
-        <button class="hamburger" aria-label="Toggle Navigation" aria-expanded="false"
-            aria-controls="primary-navigation">☰</button>
-
-        <nav class="main-nav" id="primary-navigation" aria-label="Main Navigation">
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="menu.html">Menu</a></li>
-                <li><a href="#catering">Catering</a></li>
-                <li><a href="#location-title">Location</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </div>
-</header>
-
-
-
+    <!-- Fullscreen Slider Section -->
     <section class="fullscreen-slider" role="region" aria-label="Showcase Slider">
         <div class="slide active" style="background-image: url('images/aboutus.jpg');"></div>
         <div class="slide" style="background-image: url('images/Enchi.jpg');"></div>
@@ -47,18 +48,20 @@
         <button class="next-slide" aria-label="Next Slide">&#10095;</button>
     </section>
 
+    <!-- About Us Section -->
     <section id="about" class="about" role="region" aria-labelledby="about-title">
         <h2 id="about-title">About Us</h2>
         <p>We're passionate about serving up delicious, authentic Mexican cuisine with a modern twist.</p>
         <p>From birria tacos to enchiladas, everything is made with fresh ingredients and love.</p>
     </section>
 
-<section class="showcase-window" role="region" aria-label="Featured Image Window">
-    <div class="window-overlay">
-        <h2>Featured Dish</h2>
-        <p>Birria Tacos</p>
-    </div>
-</section>
+    <!-- Showcase Window Section -->
+    <section class="showcase-window" role="region" aria-label="Featured Image Window">
+        <div class="window-overlay">
+            <h2>Featured Dish</h2>
+            <p>Birria Tacos</p>
+        </div>
+    </section>
 
 
     <section id="catering" class="catering" role="region" aria-labelledby="catering-title">
@@ -90,13 +93,13 @@
                 <address>
                     <p><span class="icon" aria-hidden="true">📍</span> 7411 15th Ave, Brooklyn, NY 11228</p>
                     <p><span class="icon" aria-hidden="true">📞</span> <a href="tel:+19175551234">(917) 933-4211</a></p>
-                    <p><span class="icon" aria-hidden="true">🧭</span> <a
-                            href="https://www.google.com/maps/place/Los+Tacos/@40.6178676,-74.0050351,17z/data=!3m1!4b1!4m6!3m5!1s0x89c2452754209291:0xb7c7927e1549051b!8m2!3d40.6178676!4d-74.0024602!16s%2Fg%2F11x5h6yfxt?entry=ttu"
-                            target="_blank" rel="noopener noreferrer">Get directions</a></p>
+                    <p>
+                        <span class="icon" aria-hidden="true">🧭</span>
+                        <a href="https://www.google.com/maps/place/Los+Tacos/@40.6178676,-74.0050351,17z/data=!3m1!4b1!4m6!3m5!1s0x89c2452754209291:0xb7c7927e1549051b!8m2!3d40.6178676!4d-74.0024602!16s%2Fg%2F11x5h6yfxt?entry=ttu"
+                            target="_blank" rel="noopener noreferrer">Get directions</a>
+                    </p>
                 </address>
-                <p class="desc">
-                    Come dine with us and try our traditional Mexican style food!!
-                </p>
+                <p class="desc">Come dine with us and try our traditional Mexican style food!!</p>
             </div>
 
             <div class="info-right">
@@ -120,7 +123,8 @@
     <section id="contact" class="contact" role="region" aria-labelledby="contact-title">
         <h2 id="contact-title" class="sr-only">Contact Information</h2>
         <p>
-            📞 <a href="tel:+19179334211"><span class="sr-only">Phone:</span>(917) 933-4211</a> |
+            📞
+            <a href="tel:+19179334211"><span class="sr-only">Phone:</span>(917) 933-4211</a> |
             <a href="https://www.instagram.com/los_tacos._/" target="_blank" rel="noopener noreferrer">@los_tacos._</a>
         </p>
     </section>
