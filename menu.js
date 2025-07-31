@@ -1,18 +1,26 @@
 document.addEventListener("DOMContentLoaded", () => {
   let currentItem = null;
 
-  // --- Hamburger Menu Toggle ---
-  const hamburger = document.querySelector(".hamburger");
-  const navLinks = document.querySelector(".nav-links");
+// --- Hamburger Toggle (Mobile Only) ---
+document.addEventListener("DOMContentLoaded", () => {
+  const toggle = document.querySelector(".menu-toggle");
+  const mobileMenu = document.querySelector("#mobile-menu");
 
-  if (hamburger && navLinks) {
-    hamburger.addEventListener("click", () => {
-      const expanded = hamburger.getAttribute("aria-expanded") === "true";
-      hamburger.setAttribute("aria-expanded", String(!expanded));
-      navLinks.classList.toggle("open");
-      document.body.classList.toggle("nav-open");
+  if (toggle && mobileMenu) {
+    toggle.addEventListener("click", () => {
+      const isOpen = toggle.getAttribute("aria-expanded") === "true";
+      toggle.setAttribute("aria-expanded", String(!isOpen));
+
+      if (isOpen) {
+        mobileMenu.setAttribute("hidden", "");
+      } else {
+        mobileMenu.removeAttribute("hidden");
+      }
     });
   }
+});
+
+
 
   // --- Slider Logic (horizontal sliders for menu sections) ---
   const sliders = document.querySelectorAll(".slider-container");
