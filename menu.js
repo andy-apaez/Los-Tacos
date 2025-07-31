@@ -1,34 +1,36 @@
 document.addEventListener("DOMContentLoaded", () => {
   let currentItem = null;
 
-/*-- Hamburger --*/
+  // ===== HAMBURGER MENU =====
 document.addEventListener("DOMContentLoaded", () => {
-  const toggle = document.querySelector(".menu-toggle");
-  const mobileMenu = document.querySelector("#mobile-menu");
+  const menuToggle = document.querySelector(".menu-toggle");
+  const mobileMenu = document.getElementById("mobile-menu");
+  const menuClose = mobileMenu.querySelector(".menu-close");
 
-  if (toggle && mobileMenu) {
-    toggle.addEventListener("click", () => {
-      const isOpen = toggle.getAttribute("aria-expanded") === "true";
-      toggle.setAttribute("aria-expanded", String(!isOpen));
-      if (isOpen) {
-        mobileMenu.setAttribute("hidden", "");
-      } else {
-        mobileMenu.removeAttribute("hidden");
-      }
-    });
-  }
+  // Open mobile menu
+  menuToggle.addEventListener("click", () => {
+    const expanded = menuToggle.getAttribute("aria-expanded") === "true";
+    menuToggle.setAttribute("aria-expanded", String(!expanded));
+    mobileMenu.hidden = expanded; // toggle hidden attribute
+  });
+
+  // Close mobile menu (via close button)
+  menuClose.addEventListener("click", () => {
+    menuToggle.setAttribute("aria-expanded", "false");
+    mobileMenu.hidden = true;
+  });
 });
 
 
 
-
-  // --- Slider Logic (horizontal sliders for menu sections) ---
+  // ===== MENU SECTION SLIDERS =====
   const sliders = document.querySelectorAll(".slider-container");
   sliders.forEach(container => {
     const slider = container.querySelector(".slider");
     const prevBtn = container.querySelector(".prev");
     const nextBtn = container.querySelector(".next");
     const itemWidth = 270;
+
     if (!slider || !prevBtn || !nextBtn) return;
 
     const slideBy = offset => slider.scrollBy({ left: offset, behavior: "smooth" });
@@ -53,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
     slider.addEventListener("touchend", () => isDragging = false);
   });
 
-  // --- Smooth Scroll Anchors ---
+  // ===== SMOOTH SCROLL TO ANCHORS =====
   document.querySelectorAll('a[href^="#"]').forEach(link => {
     link.addEventListener("click", function (e) {
       const target = document.querySelector(this.getAttribute("href"));
@@ -64,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // --- Back to Top Button ---
+  // ===== BACK TO TOP BUTTON =====
   const topBtn = document.getElementById("backToTop");
   if (topBtn) {
     window.addEventListener("scroll", () => {
@@ -73,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
     topBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
   }
 
-  // --- Modal & Cart Logic ---
+  // ===== MODAL =====
   const modal = document.getElementById("itemModal");
   const modalName = document.getElementById("modalItemName");
   const modalDescription = document.getElementById("modalItemDescription");
@@ -82,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeBtn = modal?.querySelector(".close-btn");
 
   document.querySelectorAll(".add-btn").forEach(btn => {
-    btn.addEventListener("click", (e) => {
+    btn.addEventListener("click", e => {
       const menuItem = e.target.closest(".menu-item");
       if (!menuItem || !modal || !modalName || !modalDescription || !modalPrice) return;
       const info = menuItem.querySelector(".menu-info")?.innerText.split("\n") || [];
@@ -108,20 +110,21 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.classList.remove("modal-open");
   });
 
-  modal?.addEventListener("click", (e) => {
+  modal?.addEventListener("click", e => {
     if (e.target === modal) {
       modal.classList.add("hidden");
       document.body.classList.remove("modal-open");
     }
   });
 
-  document.addEventListener("keydown", (e) => {
+  document.addEventListener("keydown", e => {
     if (e.key === "Escape" && modal && !modal.classList.contains("hidden")) {
       modal.classList.add("hidden");
       document.body.classList.remove("modal-open");
     }
   });
 
+  // ===== CART =====
   const cart = [];
   const cartItemsEl = document.getElementById("cartItems");
   const cartTotalEl = document.getElementById("cartTotal");
@@ -133,6 +136,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!cartItemsEl || !cartTotalEl || !openCartBtn || !cartEl) return;
     cartItemsEl.innerHTML = "";
     let total = 0;
+
     cart.forEach((item, index) => {
       total += item.price * item.quantity;
       const li = document.createElement("li");
@@ -171,6 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
       li.append(qtyControls, removeBtn);
       cartItemsEl.appendChild(li);
     });
+
     cartTotalEl.textContent = `Total: $${total.toFixed(2)}`;
     openCartBtn.textContent = `View Cart (${cart.reduce((sum, i) => sum + i.quantity, 0)})`;
     cartEl.classList.toggle("hidden", cart.length === 0);
@@ -203,7 +208,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   updateCartUI();
 
-  // --- Fullscreen Fading Image Slider ---
+  // ===== FULLSCREEN SLIDER (FADING) =====
   const slides = document.querySelectorAll(".fullscreen-slider .slide");
   const prevSlideBtn = document.querySelector(".fullscreen-slider .prev-slide");
   const nextSlideBtn = document.querySelector(".fullscreen-slider .next-slide");

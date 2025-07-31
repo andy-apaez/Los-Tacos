@@ -14,35 +14,23 @@
 </head>
 
 <body>
-    <header class="header">
-        <div class="nav-container">
-            <div class="logo">
-                <img src="images/logo.png" alt="Los Tacos Logo" />
-            </div>
-            <h1 class="nav-title">LOS TACOS</h1>
-    
-            <!-- Hamburger for mobile -->
-            <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </button>
-    
-            <!-- Desktop nav -->
-            <nav class="main-nav desktop-nav">
-                <ul class="nav-links">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="menu.html">Menu</a></li>
-                    <li><a href="#catering">Catering</a></li>
-                    <li><a href="#location-title">Location</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </nav>
+<header class="header">
+    <div class="nav-container">
+        <div class="logo">
+            <img src="images/logo.png" alt="Los Tacos Logo" />
         </div>
-    
-        <!-- Dropdown menu (mobile only) -->
-        <nav class="mobile-menu" id="mobile-menu" hidden>
-            <ul>
+        <h1 class="nav-title">LOS TACOS</h1>
+
+        <!-- Hamburger for mobile -->
+        <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+
+        <!-- Desktop nav -->
+        <nav class="main-nav desktop-nav" role="navigation">
+            <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="menu.html">Menu</a></li>
                 <li><a href="#catering">Catering</a></li>
@@ -50,7 +38,21 @@
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
-    </header>
+    </div>
+
+    <!-- Dropdown menu (mobile only) -->
+    <nav class="mobile-menu" id="mobile-menu" role="navigation" hidden aria-label="Mobile menu">
+        <button class="menu-close" aria-label="Close menu">&times;</button>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="menu.html">Menu</a></li>
+            <li><a href="#catering">Catering</a></li>
+            <li><a href="#location-title">Location</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+
 
 
 
