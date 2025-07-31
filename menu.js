@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   let currentItem = null;
 
-// --- Hamburger Toggle (Mobile Only) ---
+/*-- Hamburger --*/
 document.addEventListener("DOMContentLoaded", () => {
   const toggle = document.querySelector(".menu-toggle");
   const mobileMenu = document.querySelector("#mobile-menu");
@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
     toggle.addEventListener("click", () => {
       const isOpen = toggle.getAttribute("aria-expanded") === "true";
       toggle.setAttribute("aria-expanded", String(!isOpen));
-
       if (isOpen) {
         mobileMenu.setAttribute("hidden", "");
       } else {
@@ -19,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
 
 
 
