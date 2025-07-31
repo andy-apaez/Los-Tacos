@@ -2,15 +2,21 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentItem = null;
 
   // --- Hamburger Menu Toggle ---
+document.addEventListener("DOMContentLoaded", () => {
   const hamburger = document.querySelector(".hamburger");
-  if (hamburger) {
+  const navLinks = document.querySelector(".nav-links");
+
+  if (hamburger && navLinks) {
     hamburger.addEventListener("click", () => {
       const expanded = hamburger.getAttribute("aria-expanded") === "true";
       hamburger.setAttribute("aria-expanded", String(!expanded));
+
+      navLinks.classList.toggle("open");
       document.body.classList.toggle("nav-open");
-      document.querySelector(".nav-links")?.classList.toggle("open");
     });
   }
+});
+
 
   // --- Slider Logic (horizontal sliders for menu sections) ---
   const sliders = document.querySelectorAll(".slider-container");
@@ -37,10 +43,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const dx = startX - e.touches[0].clientX;
       const dy = Math.abs(startY - e.touches[0].clientY);
       if (dy > 30) return;
-      if (dx > 50) slideBy(itemWidth), (isDragging = false);
-      else if (dx < -50) slideBy(-itemWidth), (isDragging = false);
+      if (dx > 50) slideBy(itemWidth), isDragging = false;
+      else if (dx < -50) slideBy(-itemWidth), isDragging = false;
     });
-    slider.addEventListener("touchend", () => (isDragging = false));
+    slider.addEventListener("touchend", () => isDragging = false);
   });
 
   // --- Smooth Scroll Anchors ---
@@ -68,6 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalPrice = document.getElementById("modalItemPrice");
   const addToCartBtn = document.getElementById("addToCartBtn");
   const closeBtn = document.querySelector("#itemModal .close-btn");
+
   document.querySelectorAll(".add-btn").forEach(btn => {
     btn.addEventListener("click", (e) => {
       const menuItem = e.target.closest(".menu-item");
@@ -85,9 +92,25 @@ document.addEventListener("DOMContentLoaded", () => {
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
   });
-  closeBtn?.addEventListener("click", () => modal?.classList.add("hidden"), document.body.classList.remove("modal-open"));
-  modal?.addEventListener("click", (e) => e.target === modal && modal.classList.add("hidden") && document.body.classList.remove("modal-open"));
-  document.addEventListener("keydown", (e) => e.key === "Escape" && modal && !modal.classList.contains("hidden") && modal.classList.add("hidden") && document.body.classList.remove("modal-open"));
+
+  closeBtn?.addEventListener("click", () => {
+    modal?.classList.add("hidden");
+    document.body.classList.remove("modal-open");
+  });
+
+  modal?.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      modal.classList.add("hidden");
+      document.body.classList.remove("modal-open");
+    }
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal && !modal.classList.contains("hidden")) {
+      modal.classList.add("hidden");
+      document.body.classList.remove("modal-open");
+    }
+  });
 
   const cart = [];
   const cartItemsEl = document.getElementById("cartItems");
@@ -108,15 +131,24 @@ document.addEventListener("DOMContentLoaded", () => {
       removeBtn.textContent = "×";
       removeBtn.classList.add("remove-item");
       removeBtn.setAttribute("aria-label", `Remove ${item.name}`);
-      removeBtn.addEventListener("click", () => cart.splice(index, 1) && updateCartUI());
+      removeBtn.addEventListener("click", () => {
+        cart.splice(index, 1);
+        updateCartUI();
+      });
       const minusBtn = document.createElement("button");
       minusBtn.textContent = "–";
       minusBtn.setAttribute("aria-label", `Decrease quantity of ${item.name}`);
-      minusBtn.addEventListener("click", () => item.quantity > 1 ? item.quantity-- : cart.splice(index, 1), updateCartUI());
+      minusBtn.addEventListener("click", () => {
+        item.quantity > 1 ? item.quantity-- : cart.splice(index, 1);
+        updateCartUI();
+      });
       const plusBtn = document.createElement("button");
       plusBtn.textContent = "+";
       plusBtn.setAttribute("aria-label", `Increase quantity of ${item.name}`);
-      plusBtn.addEventListener("click", () => item.quantity++, updateCartUI());
+      plusBtn.addEventListener("click", () => {
+        item.quantity++;
+        updateCartUI();
+      });
       const qtyControls = document.createElement("span");
       qtyControls.classList.add("quantity-controls");
       qtyControls.append(minusBtn, plusBtn);
@@ -130,14 +162,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const addToCart = (item) => {
     const existing = cart.find(i => i.name === item.name);
-    existing ? existing.quantity++ : cart.push({ ...item, quantity: 1 });
+    if (existing) {
+      existing.quantity++;
+    } else {
+      cart.push({ ...item, quantity: 1 });
+    }
     updateCartUI();
   };
 
-  addToCartBtn?.addEventListener("click", () => currentItem && addToCart(currentItem) && modal?.classList.add("hidden") && document.body.classList.remove("modal-open"));
+  addToCartBtn?.addEventListener("click", () => {
+    if (currentItem) {
+      addToCart(currentItem);
+      modal?.classList.add("hidden");
+      document.body.classList.remove("modal-open");
+    }
+  });
+
   openCartBtn?.addEventListener("click", () => cartEl?.classList.toggle("hidden"));
   closeCartBtn?.addEventListener("click", () => cartEl?.classList.add("hidden"));
-  document.getElementById("checkoutBtn")?.addEventListener("click", () => alert(cart.length === 0 ? "Your cart is empty!" : "Checkout is not implemented yet."));
+  document.getElementById("checkoutBtn")?.addEventListener("click", () => {
+    alert(cart.length === 0 ? "Your cart is empty!" : "Checkout is not implemented yet.");
+  });
+
   updateCartUI();
 
   // --- Fullscreen Fading Image Slider ---
@@ -163,8 +209,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     nextSlideBtn?.addEventListener("click", next);
     prevSlideBtn?.addEventListener("click", prev);
-
     showSlide(currentSlide);
-    setInterval(next, 6000); 
+    setInterval(next, 6000);
   }
 });

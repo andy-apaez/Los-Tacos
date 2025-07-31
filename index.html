@@ -14,26 +14,30 @@
 </head>
 
 <body>
-    <header class="header" role="banner">
-        <div class="nav-container">
-            <div class="logo">
-                <img src="images/logo.png" alt="Los Tacos Logo" />
-            </div>
-
-            <h1 class="nav-title">LOS TACOS</h1>
-
-            <nav class="nav" role="navigation" aria-label="Primary Navigation" id="primary-navigation">
-                <ul class="nav-links">
-                    <li><a href="menu.html" class="btn" aria-label="View Menu">Menu</a></li>
-                </ul>
-            </nav>
-
-            <button class="hamburger" aria-label="Toggle Navigation" aria-expanded="false"
-                aria-controls="primary-navigation">
-                ☰
-            </button>
+<header class="header" role="banner">
+    <div class="nav-container">
+        <div class="logo">
+            <img src="images/logo.png" alt="Los Tacos Logo" />
         </div>
-    </header>
+
+        <h1 class="nav-title">LOS TACOS</h1>
+
+        <button class="hamburger" aria-label="Toggle Navigation" aria-expanded="false"
+            aria-controls="primary-navigation">☰</button>
+
+        <nav class="main-nav" id="primary-navigation" aria-label="Main Navigation">
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="menu.html">Menu</a></li>
+                <li><a href="#catering">Catering</a></li>
+                <li><a href="#location-title">Location</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
 
     <section class="fullscreen-slider" role="region" aria-label="Showcase Slider">
         <div class="slide active" style="background-image: url('images/aboutus.jpg');"></div>

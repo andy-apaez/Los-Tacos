@@ -274,13 +274,14 @@ img:hover,
     color: var(--accent-color);
 }
 
-/* Mobile Nav */
 @media (max-width: 768px) {
     .hamburger {
         display: block;
     }
 
     .nav-links {
+        display: none;
+        /* 👈 NEW */
         position: fixed;
         top: 64px;
         right: 0;
@@ -300,6 +301,8 @@ img:hover,
     }
 
     .nav-links.open {
+        display: flex;
+        /* 👈 NEW */
         transform: translateX(0);
     }
 
