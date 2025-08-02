@@ -731,7 +731,7 @@
     
     <textarea class="special-instructions" placeholder="Add special instructions..."></textarea>
     
-    <button id="addToCartBtn" class="add-to-cart-btn">Add to Bag • $14.00</button>
+    <button id="addToCartBtn" class="add-to-cart-btn">Add to Cart</button>
 
     </div>
   </div>
@@ -745,7 +745,15 @@
     <button id="closeCartBtn" aria-label="Close Cart">Close</button>
   </div>
   
-  <button id="openCartBtn" aria-label="View Cart (0 items)">View Cart (0)</button>
+<button id="openCartBtn" aria-label="View Cart (0 items)">View Cart (0)</button>
+
+<div id="cart" class="cart hidden" aria-label="Shopping Cart" role="region">
+  <h3>Your Cart</h3>
+  <ul id="cartItems"></ul>
+  <p id="cartTotal">Total: $0.00</p>
+  <button id="closeCartBtn" aria-label="Close Cart">Close</button>
+</div>
+
 
 
   <script src="menu.js"></script>

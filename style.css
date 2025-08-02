@@ -385,15 +385,6 @@ section {
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-@media (max-width: 768px) {
-    .showcase-window {
-        background-attachment: scroll;
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center;
-    }
-}
-
 .contact {
     padding: 4rem 2rem;
     background-color: #f8f6f3;
