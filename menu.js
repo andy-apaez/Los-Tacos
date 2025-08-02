@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const slider = container.querySelector(".slider");
     const prevBtn = container.querySelector(".prev");
     const nextBtn = container.querySelector(".next");
-    const itemWidth = 300;
+    const itemWidth = 320;
 
     if (!slider || !prevBtn || !nextBtn) return;
 
