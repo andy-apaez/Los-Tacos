@@ -194,7 +194,7 @@ img:hover,
     width: 100%;
     background: rgba(61, 43, 31, 0.85);
     backdrop-filter: saturate(180%) blur(10px);
-    z-index: 9999;
+    z-index: 8888;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -865,7 +865,7 @@ footer a:focus {
     /* adjust based on header height */
     left: 0;
     right: 0;
-    z-index: 10000;
+    z-index: 9999;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     border-radius: 0 0 8px 8px;
     animation: dropdownFade 0.25s ease forwards;
