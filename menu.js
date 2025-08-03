@@ -160,46 +160,52 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ===== Horizontal Sliders with Touch Support =====
- document.querySelectorAll(".slider").forEach((slider) => {
-  const itemWidth = slider.querySelector(".menu-item")?.offsetWidth || 300;
-  const arrowLeft = slider.parentElement.querySelector(".prev");
-  const arrowRight = slider.parentElement.querySelector(".next");
+  document.querySelectorAll(".slider").forEach((slider) => {
+    const menuItem = slider.querySelector(".menu-item");
+    if (!menuItem) return;
 
-  const slideBy = (distance) => {
-    slider.scrollBy({ left: distance, behavior: "smooth" });
-  };
+    const itemStyles = window.getComputedStyle(menuItem);
+    const marginRight = parseFloat(itemStyles.marginRight) || 0;
+    const itemWidth = menuItem.offsetWidth + marginRight;
 
-  arrowLeft?.addEventListener("click", () => slideBy(-itemWidth));
-  arrowRight?.addEventListener("click", () => slideBy(itemWidth));
-  
-  // Touch support
-  let startX = 0, startY = 0, isDragging = false;
+    // Corrected: get buttons from slider's parent container (.slider-container)
+    const sliderContainer = slider.parentElement;
+    const arrowLeft = sliderContainer.querySelector(".prev");
+    const arrowRight = sliderContainer.querySelector(".next");
 
-  slider.addEventListener("touchstart", (e) => {
-    startX = e.touches[0].clientX;
-    startY = e.touches[0].clientY;
-    isDragging = true;
-  });
+    const slideBy = (distance) => {
+      slider.scrollBy({ left: distance, behavior: "smooth" });
+    };
 
-  slider.addEventListener("touchmove", (e) => {
-    if (!isDragging) return;
-    const dx = startX - e.touches[0].clientX;
-    const dy = Math.abs(startY - e.touches[0].clientY);
-    if (dy > 30) return;
-    if (dx > 50) {
-      slideBy(itemWidth);
+    arrowLeft?.addEventListener("click", () => slideBy(-itemWidth));
+    arrowRight?.addEventListener("click", () => slideBy(itemWidth));
+
+    let startX = 0, startY = 0, isDragging = false;
+
+    slider.addEventListener("touchstart", (e) => {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      isDragging = true;
+    });
+
+    slider.addEventListener("touchmove", (e) => {
+      if (!isDragging) return;
+      const dx = startX - e.touches[0].clientX;
+      const dy = Math.abs(startY - e.touches[0].clientY);
+      if (dy > 30) return;
+      if (dx > 50) {
+        slideBy(itemWidth);
+        isDragging = false;
+      } else if (dx < -50) {
+        slideBy(-itemWidth);
+        isDragging = false;
+      }
+    });
+
+    slider.addEventListener("touchend", () => {
       isDragging = false;
-    } else if (dx < -50) {
-      slideBy(-itemWidth);
-      isDragging = false;
-    }
+    });
   });
-
-  slider.addEventListener("touchend", () => {
-    isDragging = false;
-  });
-});
-
 
   // ===== Smooth Scroll for Anchor Links =====
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
@@ -225,6 +231,6 @@ document.addEventListener('DOMContentLoaded', () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
 
-  // Initialize cart
+  // Initialize cart UI
   updateCartUI();
 });
