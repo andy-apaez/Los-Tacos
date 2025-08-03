@@ -578,3 +578,11 @@ nav a:first-child {
     background: #2a1e13;
     outline: none;
 }
+
+button,
+input,
+select,
+textarea {
+    font-size: 16px;
+    touch-action: manipulation;
+}

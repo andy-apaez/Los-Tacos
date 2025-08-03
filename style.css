@@ -724,7 +724,6 @@ footer a:focus {
     right: 1.5rem;
 }
 
-/* Responsive adjustments */
 @media (max-width: 480px) {
 
     .fullscreen-slider button.prev-slide,
@@ -805,7 +804,6 @@ footer a:focus {
 
 .mobile-menu li {
     margin: 0.5rem 0;
-    /* better for vertical stacking */
 }
 
 .main-nav a,
@@ -860,9 +858,7 @@ footer a:focus {
     padding: 1.25rem 1.5rem;
     text-align: center;
     position: fixed;
-    /* fixed so it stays visible on scroll */
     top: 60px;
-    /* adjust based on header height */
     left: 0;
     right: 0;
     z-index: 9999;

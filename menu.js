@@ -19,12 +19,21 @@ document.addEventListener('DOMContentLoaded', () => {
   const cartItemsList = document.getElementById('cartItems');
   const cartTotal = document.getElementById('cartTotal');
 
+  // ----- Nav Toggle -----
+  const toggleButton = document.querySelector('.menu-toggle');
+  const nav = document.getElementById('main-nav');
+
+  toggleButton?.addEventListener('click', () => {
+    const isExpanded = toggleButton.getAttribute('aria-expanded') === 'true';
+    toggleButton.setAttribute('aria-expanded', !isExpanded);
+    nav.classList.toggle('open');
+  });
+
   // ----- State -----
   let cartItems = [];
   let currentQty = 1;
   let currentItem = null;
 
-  // Helper: parse price string like "$14.95" to number 14.95
   function parsePrice(priceStr) {
     return parseFloat(priceStr.replace(/[^0-9.]/g, '')) || 0;
   }
@@ -33,7 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
     qtyDisplay.textContent = currentQty;
   }
 
-  // Open modal and populate with item data
   function openModal(menuItem) {
     currentQty = 1;
     updateQtyDisplay();
@@ -57,13 +65,10 @@ document.addEventListener('DOMContentLoaded', () => {
     modalDesc.textContent = description;
     modalImg.src = imgSrc;
     specialInstructions.value = '';
-
     modal.classList.remove('hidden');
   }
 
-  // Add or update item in cart
   function addItemToCart(item) {
-    // Check for existing item with same name + instructions
     const existingIndex = cartItems.findIndex(ci =>
       ci.name === item.name && ci.instructions === item.instructions
     );
@@ -71,12 +76,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (existingIndex > -1) {
       cartItems[existingIndex].qty += item.qty;
     } else {
-      cartItems.push({...item});
+      cartItems.push({ ...item });
     }
+
     updateCartUI();
   }
 
-  // Update cart UI and button count
   function updateCartUI() {
     cartItemsList.innerHTML = '';
 
@@ -98,15 +103,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     cartTotal.textContent = `Total: $${total.toFixed(2)}`;
-
     const totalQty = cartItems.reduce((sum, i) => sum + i.qty, 0);
     openCartBtn.textContent = `View Cart (${totalQty})`;
     openCartBtn.setAttribute('aria-label', `View Cart (${totalQty} items)`);
   }
 
   // ----- Event Listeners -----
-
-  // Open modal on clicking "+", prevent bubbling
   document.querySelectorAll('.add-btn').forEach(btn => {
     btn.addEventListener('click', e => {
       e.stopPropagation();
@@ -116,7 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Modal quantity controls
   decreaseQtyBtn.addEventListener('click', () => {
     if (currentQty > 1) {
       currentQty--;
@@ -129,19 +130,16 @@ document.addEventListener('DOMContentLoaded', () => {
     updateQtyDisplay();
   });
 
-  // Modal close button
   closeBtn.addEventListener('click', () => {
     modal.classList.add('hidden');
   });
 
-  // Close modal if clicking outside content
   modal.addEventListener('click', e => {
     if (e.target === modal) {
       modal.classList.add('hidden');
     }
   });
 
-  // Add to cart button in modal
   addToCartBtn.addEventListener('click', () => {
     if (!currentItem) return;
     currentItem.qty = currentQty;
@@ -150,58 +148,58 @@ document.addEventListener('DOMContentLoaded', () => {
     modal.classList.add('hidden');
   });
 
-  // Open cart
- openCartBtn.addEventListener('click', () => {
-  updateCartUI();
-  cart.classList.remove('hidden');
-  openCartBtn.style.display = 'none';  // Hide button
-});
+  openCartBtn.addEventListener('click', () => {
+    updateCartUI();
+    cart.classList.remove('hidden');
+    openCartBtn.style.display = 'none';
+  });
 
-closeCartBtn.addEventListener('click', () => {
-  cart.classList.add('hidden');
-  openCartBtn.style.display = 'inline-block';  // Show button again
-});
-
+  closeCartBtn.addEventListener('click', () => {
+    cart.classList.add('hidden');
+    openCartBtn.style.display = 'inline-block';
+  });
 
   // ===== Horizontal Sliders with Touch Support =====
-  document.querySelectorAll(".slider").forEach((slider) => {
-    const itemWidth = slider.querySelector(".menu-item")?.offsetWidth || 300;
-    const arrowLeft = slider.previousElementSibling?.querySelector(".prev");
-    const arrowRight = slider.previousElementSibling?.querySelector(".next");
+ document.querySelectorAll(".slider").forEach((slider) => {
+  const itemWidth = slider.querySelector(".menu-item")?.offsetWidth || 300;
+  const arrowLeft = slider.parentElement.querySelector(".prev");
+  const arrowRight = slider.parentElement.querySelector(".next");
 
-    const slideBy = (distance) => {
-      slider.scrollBy({ left: distance, behavior: "smooth" });
-    };
+  const slideBy = (distance) => {
+    slider.scrollBy({ left: distance, behavior: "smooth" });
+  };
 
-    arrowLeft?.addEventListener("click", () => slideBy(-itemWidth));
-    arrowRight?.addEventListener("click", () => slideBy(itemWidth));
+  arrowLeft?.addEventListener("click", () => slideBy(-itemWidth));
+  arrowRight?.addEventListener("click", () => slideBy(itemWidth));
+  
+  // Touch support
+  let startX = 0, startY = 0, isDragging = false;
 
-    let startX = 0, startY = 0, isDragging = false;
-
-    slider.addEventListener("touchstart", (e) => {
-      startX = e.touches[0].clientX;
-      startY = e.touches[0].clientY;
-      isDragging = true;
-    });
-
-    slider.addEventListener("touchmove", (e) => {
-      if (!isDragging) return;
-      const dx = startX - e.touches[0].clientX;
-      const dy = Math.abs(startY - e.touches[0].clientY);
-      if (dy > 30) return;
-      if (dx > 50) {
-        slideBy(itemWidth);
-        isDragging = false;
-      } else if (dx < -50) {
-        slideBy(-itemWidth);
-        isDragging = false;
-      }
-    });
-
-    slider.addEventListener("touchend", () => {
-      isDragging = false;
-    });
+  slider.addEventListener("touchstart", (e) => {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    isDragging = true;
   });
+
+  slider.addEventListener("touchmove", (e) => {
+    if (!isDragging) return;
+    const dx = startX - e.touches[0].clientX;
+    const dy = Math.abs(startY - e.touches[0].clientY);
+    if (dy > 30) return;
+    if (dx > 50) {
+      slideBy(itemWidth);
+      isDragging = false;
+    } else if (dx < -50) {
+      slideBy(-itemWidth);
+      isDragging = false;
+    }
+  });
+
+  slider.addEventListener("touchend", () => {
+    isDragging = false;
+  });
+});
+
 
   // ===== Smooth Scroll for Anchor Links =====
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
@@ -227,6 +225,6 @@ closeCartBtn.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
 
-  // Initial cart UI update
+  // Initialize cart
   updateCartUI();
 });
