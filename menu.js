@@ -159,27 +159,65 @@ document.addEventListener('DOMContentLoaded', () => {
     openCartBtn.style.display = 'inline-block';
   });
 
-  // ===== Horizontal Sliders with Touch Support =====
+  // ===== Horizontal Sliders with precise snap scrolling and touch support =====
   document.querySelectorAll(".slider").forEach((slider) => {
-    const menuItem = slider.querySelector(".menu-item");
-    if (!menuItem) return;
+    const menuItems = [...slider.querySelectorAll(".menu-item")];
+    if (menuItems.length === 0) return;
 
-    const itemStyles = window.getComputedStyle(menuItem);
-    const marginRight = parseFloat(itemStyles.marginRight) || 0;
-    const itemWidth = menuItem.offsetWidth + marginRight;
-
-    // Corrected: get buttons from slider's parent container (.slider-container)
+    // Get buttons from slider's parent container (.slider-container)
     const sliderContainer = slider.parentElement;
     const arrowLeft = sliderContainer.querySelector(".prev");
     const arrowRight = sliderContainer.querySelector(".next");
 
-    const slideBy = (distance) => {
-      slider.scrollBy({ left: distance, behavior: "smooth" });
-    };
+    // Array of snap positions (offsetLeft of each menu item)
+    const snapPositions = menuItems.map(item => item.offsetLeft);
 
-    arrowLeft?.addEventListener("click", () => slideBy(-itemWidth));
-    arrowRight?.addEventListener("click", () => slideBy(itemWidth));
+    // Helper to find closest snap position to current scrollLeft
+    function findClosestSnapPosition(scrollLeft) {
+      let closest = snapPositions[0];
+      let minDiff = Math.abs(scrollLeft - closest);
+      for (let pos of snapPositions) {
+        const diff = Math.abs(scrollLeft - pos);
+        if (diff < minDiff) {
+          minDiff = diff;
+          closest = pos;
+        }
+      }
+      return closest;
+    }
 
+    // Slide to next snap point
+    arrowRight?.addEventListener("click", () => {
+      const currentScroll = slider.scrollLeft;
+      const currentSnap = findClosestSnapPosition(currentScroll);
+
+      // Find next snap point greater than currentSnap
+      const nextIndex = snapPositions.findIndex(pos => pos > currentSnap);
+      if (nextIndex !== -1) {
+        slider.scrollTo({ left: snapPositions[nextIndex], behavior: "smooth" });
+      } else {
+        // If at end, scroll to max scroll
+        slider.scrollTo({ left: slider.scrollWidth, behavior: "smooth" });
+      }
+    });
+
+    // Slide to previous snap point
+    arrowLeft?.addEventListener("click", () => {
+      const currentScroll = slider.scrollLeft;
+      const currentSnap = findClosestSnapPosition(currentScroll);
+
+      // Find previous snap point less than currentSnap
+      const prevPositions = snapPositions.filter(pos => pos < currentSnap);
+      if (prevPositions.length) {
+        const prevSnap = prevPositions[prevPositions.length - 1];
+        slider.scrollTo({ left: prevSnap, behavior: "smooth" });
+      } else {
+        // If at start, scroll to 0
+        slider.scrollTo({ left: 0, behavior: "smooth" });
+      }
+    });
+
+    // Touch support
     let startX = 0, startY = 0, isDragging = false;
 
     slider.addEventListener("touchstart", (e) => {
@@ -194,10 +232,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const dy = Math.abs(startY - e.touches[0].clientY);
       if (dy > 30) return;
       if (dx > 50) {
-        slideBy(itemWidth);
+        arrowRight?.click();
         isDragging = false;
       } else if (dx < -50) {
-        slideBy(-itemWidth);
+        arrowLeft?.click();
         isDragging = false;
       }
     });
