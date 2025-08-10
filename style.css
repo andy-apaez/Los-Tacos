@@ -345,45 +345,41 @@ section {
     line-height: 1.6;
 }
 
-/* Showcase Window Replacement */
-.showcase-window {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    background-image: url('images/birria.jpg');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    overflow: hidden;
-    color: #fff;
-}
+/*--- Parallax window---*/
+ /* Parallax container */
+ .parallax-window {
+     position: relative;
+     height: 400px;
+     overflow: hidden;
+     background-image: url('images/birria.jpg');
+     background-attachment: fixed;
+     background-position: center;
+     background-repeat: no-repeat;
+     background-size: cover;
+ }
 
-.window-overlay {
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 2rem 3rem;
-    border-radius: 12px;
-    backdrop-filter: blur(4px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-}
+ @media (max-width: 768px) {
+     .parallax-window {
+         background-attachment: scroll;
+     }
+ }
 
-.window-overlay h2 {
-    font-family: var(--font-serif);
-    font-size: 3rem;
-    margin-bottom: 0.5rem;
-    color: #fff;
-    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
-}
-
-.window-overlay p {
-    font-family: var(--font-sans);
-    font-size: 1.25rem;
-    color: #f1e9dc;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-}
+ /* Centered box */
+ .item-box {
+     position: absolute;
+     top: 50%;
+     left: 50%;
+     transform: translate(-50%, -50%);
+     background: rgba(0, 0, 0, 0.5);
+     color: white;
+     padding: 1rem 2rem;
+     border-radius: 8px;
+     font-size: 1.5rem;
+     font-weight: bold;
+     text-align: center;
+     max-width: 90%;
+     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+ }
 
 .contact {
     padding: 4rem 2rem;

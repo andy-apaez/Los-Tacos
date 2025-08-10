@@ -686,7 +686,7 @@
           <div class="slider">
             <div class="menu-item"
             data-name="Tacos de Birria" 
-              data-description="Slow brasied beef guajillo birria tacos served with chihuaua cheese, onion, cilantro and salsa verde."
+              data-description="."
               data-price="$14.95">
               <img src="images/jamaica.png" alt="Jamaica" loading="lazy"/>
               <div class="menu-info">Agua de Jamaica<br>$4.95</div>
@@ -694,7 +694,7 @@
             </div>
             <div class="menu-item"
             data-name="Tacos de Birria" 
-              data-description="Slow brasied beef guajillo birria tacos served with chihuaua cheese, onion, cilantro and salsa verde."
+              data-description="Traditional Horchata."
               data-price="$14.95">
               <img src="images/tamarindo.png" alt="Tamarindo" loading="lazy"/>
               <div class="menu-info">Agua de Tamarindo<br>$4.95</div>
@@ -705,13 +705,48 @@
           <button class="next" aria-label="Scroll right">→</button>
         </div>
       </section>
+
+      <section id = "catering">
+        <h2 class="section title">Catering Options</h2>
+        <small>Bring Los Tacos to your events!!</small>
+        <div class="slider-container">
+          <div class="slider">
+            <div class="menu-item"data-name="Los Tacos Combo" 
+              data-description="12 Tacos packed together with garnishes on the side in one convenient set."
+              data-price="$52.00">
+              <img src="images/Asada.png" alt="Taco combo" loading="lazy"/>
+              <div class="menu-info">Los Tacos Combo<br>$52.00</div>
+              <div class="add-btn">+</div>
+            </div>
+            <div class="menu-item" data-name="Los Tacos Super Combo"
+              data-description="30 tacos packed together with garnishes on the side in one convienient set."
+              data-price="$120.00">
+              <img src="images/Pollo.png" alt="Jamaica" loading="lazy" />
+              <div class="menu-info">Los Tacos Super Combo<br>$120.00</div>
+              <div class="add-btn">+</div>
+            </div>
+            <div class="menu-item" data-name="Guacamole Combo"
+              data-description="Guacamole for 7 to 10 people served with chips and salsa."
+              data-price="$50.00">
+              <img src="images/Guac.jpg" alt="Guac" loading="lazy" />
+              <div class="menu-info">Los Tacos Super Combo<br>$50.00</div>
+              
+              <div class="add-btn">+</div>
+            </div>
+
+          </div>
+        </div>
+
+      </section>
     </main>
   </div>
+  
   <button id="backToTop" class="back-to-top" title="Back to top" aria-label="Back to top">↑</button>
 
   <!-- Modal popup -->
   <div id="itemModal" class="modal hidden">
     <div class="modal-content">
+
     <span class="close-btn" aria-label="Close">&times;</span>
     
     <img id="modalItemImage" src="images/backmodal.jpg" height="150px" width="130" alt="Taco Image" class="modal-img" />
@@ -727,6 +762,15 @@
         <span id="itemQty">1</span>
         <button id="increaseQty" aria-label="Increase">+</button>
       </div>
+    </div>
+
+    <div id="meatSelection" style="display:none; margin-top: 15px;">
+      <p>Select up to 3 options:</p>
+      <label><input type="checkbox" name="modalMeat" value="pollo"> Pollo</label>
+      <label><input type="checkbox" name="modalMeat" value="steak"> Steak</label>
+      <label><input type="checkbox" name="modalMeat" value="shrimp"> Shrimp</label>
+      <label><input type="checkbox" name="modalMeat" value="mushroom"> Mushroom</label>
+      <label><input type="checkbox" name="modalMeat" value="pastor"> Pastor</label>
     </div>
     
     <textarea class="special-instructions" placeholder="Add special instructions..."></textarea>

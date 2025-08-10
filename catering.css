@@ -1,0 +1,194 @@
+body {
+    font-family: 'Dancing Script', cursive;
+    margin: 0;
+    padding: 0;
+    background: #fefefe;
+    color: #333;
+    text-align: center;
+
+    margin: 40px;
+    box-sizing: border-box;
+    box-shadow:
+        0 0 0 10px green,
+        0 0 0 20px white,
+        0 0 0 30px red;
+}
+
+/* Make margin smaller on small screens */
+@media (max-width: 600px) {
+    body {
+        margin: 15px;
+    }
+}
+
+.parallax {
+    background: linear-gradient(135deg, green 0%, White 50%, red 100%);
+    padding: 60px 20px;
+}
+
+.animated-text text {
+    animation: draw 3s ease forwards;
+    stroke-linejoin: round;
+}
+
+@keyframes draw {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+.description {
+    margin: 40px auto;
+    max-width: 600px;
+    font-size: 18px;
+    line-height: 1.5;
+    padding: 0 20px;
+}
+
+.animated-text {
+    width: 100%;
+    max-width: 600px;
+    /* or whatever max width you want on desktop */
+    margin: 0 auto;
+}
+
+/* Shrink the SVG text on smaller screens */
+@media (max-width: 600px) {
+    .animated-text {
+        max-width: 100%;
+        /* full width */
+    }
+
+    .animated-text svg {
+        width: 100%;
+        height: auto;
+        /* Optional: scale down the viewBox or transform */
+        transform-origin: left center;
+        transform: scale(0.7);
+        /* shrink size */
+        display: block;
+        margin: 0 auto;
+    }
+}
+
+/* Adjust font size and padding for smaller screens */
+@media (max-width: 600px) {
+    .description {
+        font-size: 16px;
+        padding: 0 10px;
+        margin: 20px auto;
+    }
+}
+
+.order-button {
+    display: inline-block;
+    margin-top: 25px;
+    background-color: #333;
+    color: white;
+    padding: 14px 28px;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+    /* Make the button more touch friendly */
+    min-width: 140px;
+}
+
+/* Slightly smaller button padding on mobile */
+@media (max-width: 600px) {
+    .order-button {
+        padding: 12px 20px;
+        min-width: 120px;
+        font-size: 14px;
+    }
+}
+
+.order-button:hover {
+    background-color: #555;
+}
+
+.menu-slider {
+    max-width: 700px;
+    margin: 40px auto 60px;
+    padding: 0 20px;
+}
+
+/* Reduce max-width and padding on mobile */
+@media (max-width: 600px) {
+    .menu-slider {
+        max-width: 100%;
+        margin: 20px auto 40px;
+        padding: 0 10px;
+    }
+}
+
+.menu-slider h2 {
+    text-align: center;
+    font-family: 'Dancing Script', cursive;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #3d2b1f;
+}
+
+/* Slightly smaller heading on mobile */
+@media (max-width: 600px) {
+    .menu-slider h2 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+    }
+}
+
+.slider-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+}
+
+.slider-track {
+    display: flex;
+    gap: 20px;
+}
+
+.slide {
+    min-width: 150px;
+    flex-shrink: 0;
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+.slide img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(61, 43, 31, 0.2);
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+/* Scale image on hover for desktop */
+.slide img:hover {
+    transform: scale(1.05);
+}
+
+/* Make images smaller on mobile */
+@media (max-width: 600px) {
+    .slide {
+        min-width: 120px;
+    }
+
+    .slide img {
+        width: 120px;
+        height: 120px;
+    }
+
+    .slide p {
+        font-size: 14px;
+    }
+}
+
+.slide p {
+    margin-top: 10px;
+    font-weight: 600;
+    color: #3d2b1f;
+}

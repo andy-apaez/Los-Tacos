@@ -12,6 +12,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const specialInstructions = modal.querySelector('.special-instructions');
   const addToCartBtn = document.getElementById('addToCartBtn');
 
+  // ----- Meat Selection Element inside modal -----
+  const meatSelection = document.getElementById('meatSelection');
+
   // ----- Cart Elements -----
   const cart = document.getElementById('cart');
   const openCartBtn = document.getElementById('openCartBtn');
@@ -65,10 +68,41 @@ document.addEventListener('DOMContentLoaded', () => {
     modalDesc.textContent = description;
     modalImg.src = imgSrc;
     specialInstructions.value = '';
+
+    // SHOW or HIDE meat selection ONLY for those two specific items
+    if (name === "Los Tacos Combo" || name === "Los Tacos Super Combo") {
+      meatSelection.style.display = 'block';
+    } else {
+      meatSelection.style.display = 'none';
+      // Reset checkboxes whenever hidden
+      meatSelection.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+    }
+
     modal.classList.remove('hidden');
   }
 
+  // Limit max 3 selections inside modal meat checkboxes
+  meatSelection.addEventListener('change', (e) => {
+    if (e.target.type === 'checkbox') {
+      const checkedBoxes = meatSelection.querySelectorAll('input[type="checkbox"]:checked');
+      if (checkedBoxes.length > 3) {
+        e.target.checked = false;
+        alert('You can select up to 3 options only.');
+      }
+    }
+  });
+
   function addItemToCart(item) {
+    // Append selected meats from modal checkboxes if visible
+    if (meatSelection.style.display === 'block') {
+      const selectedMeats = [...meatSelection.querySelectorAll('input[type="checkbox"]:checked')]
+        .map(cb => cb.value);
+      if (selectedMeats.length > 0) {
+        item.instructions = (item.instructions ? item.instructions + ' | ' : '') +
+          'Meats: ' + selectedMeats.join(', ');
+      }
+    }
+
     const existingIndex = cartItems.findIndex(ci =>
       ci.name === item.name && ci.instructions === item.instructions
     );
@@ -95,8 +129,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let total = 0;
     cartItems.forEach(item => {
-      const li = document.createElement('li');
       const notes = item.instructions ? ` (Notes: ${item.instructions})` : '';
+      const li = document.createElement('li');
       li.textContent = `${item.name} x${item.qty} — $${(item.price * item.qty).toFixed(2)}${notes}`;
       cartItemsList.appendChild(li);
       total += item.price * item.qty;
@@ -143,7 +177,8 @@ document.addEventListener('DOMContentLoaded', () => {
   addToCartBtn.addEventListener('click', () => {
     if (!currentItem) return;
     currentItem.qty = currentQty;
-    currentItem.instructions = specialInstructions.value.trim();
+    currentItem.instructions = specialInstructions.value.trim(); // base instructions
+
     addItemToCart(currentItem);
     modal.classList.add('hidden');
   });
