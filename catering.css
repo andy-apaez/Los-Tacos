@@ -5,7 +5,6 @@ body {
     background: #fefefe;
     color: #333;
     text-align: center;
-
     margin: 40px;
     box-sizing: border-box;
     box-shadow:
@@ -14,18 +13,23 @@ body {
         0 0 0 30px red;
 }
 
-/* Make margin smaller on small screens */
+/* Mobile adjustments */
 @media (max-width: 600px) {
     body {
-        margin: 15px;
+        margin: 10px;
+        box-shadow:
+            0 0 0 5px green,
+            0 0 0 10px white,
+            0 0 0 15px red;
     }
 }
 
 .parallax {
-    background: linear-gradient(135deg, green 0%, White 50%, red 100%);
+    background: linear-gradient(135deg, green 0%, white 50%, red 100%);
     padding: 60px 20px;
 }
 
+/* SVG animated text */
 .animated-text text {
     animation: draw 3s ease forwards;
     stroke-linejoin: round;
@@ -45,33 +49,31 @@ body {
     padding: 0 20px;
 }
 
+/* Animated text wrapper */
 .animated-text {
     width: 100%;
     max-width: 600px;
-    /* or whatever max width you want on desktop */
     margin: 0 auto;
 }
 
-/* Shrink the SVG text on smaller screens */
+/* Mobile scaling for animated text */
 @media (max-width: 600px) {
     .animated-text {
         max-width: 100%;
-        /* full width */
+        padding: 0 5px;
     }
 
     .animated-text svg {
         width: 100%;
         height: auto;
-        /* Optional: scale down the viewBox or transform */
-        transform-origin: left center;
-        transform: scale(0.7);
-        /* shrink size */
+        transform-origin: center;
+        transform: scale(0.85);
         display: block;
         margin: 0 auto;
     }
 }
 
-/* Adjust font size and padding for smaller screens */
+/* Mobile font and spacing tweaks */
 @media (max-width: 600px) {
     .description {
         font-size: 16px;
@@ -90,11 +92,9 @@ body {
     font-weight: bold;
     border-radius: 6px;
     transition: background-color 0.3s ease;
-    /* Make the button more touch friendly */
     min-width: 140px;
 }
 
-/* Slightly smaller button padding on mobile */
 @media (max-width: 600px) {
     .order-button {
         padding: 12px 20px;
@@ -111,9 +111,9 @@ body {
     max-width: 700px;
     margin: 40px auto 60px;
     padding: 0 20px;
+    position: relative;
 }
 
-/* Reduce max-width and padding on mobile */
 @media (max-width: 600px) {
     .menu-slider {
         max-width: 100%;
@@ -130,7 +130,6 @@ body {
     color: #3d2b1f;
 }
 
-/* Slightly smaller heading on mobile */
 @media (max-width: 600px) {
     .menu-slider h2 {
         font-size: 1.5rem;
@@ -138,22 +137,28 @@ body {
     }
 }
 
+.slider-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
 .slider-container {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scroll-behavior: smooth;
+    overflow: hidden;
+    flex: 1;
 }
 
 .slider-track {
     display: flex;
     gap: 20px;
+    width: calc(6 * 170px);
+    animation: scrollSlider 12s linear infinite;
 }
 
 .slide {
     min-width: 150px;
     flex-shrink: 0;
     text-align: center;
-    font-family: Arial, sans-serif;
 }
 
 .slide img {
@@ -166,12 +171,17 @@ body {
     cursor: pointer;
 }
 
-/* Scale image on hover for desktop */
 .slide img:hover {
     transform: scale(1.05);
 }
 
-/* Make images smaller on mobile */
+.slide p {
+    margin-top: 10px;
+    font-weight: 600;
+    color: #3d2b1f;
+}
+
+/* Mobile adjustments */
 @media (max-width: 600px) {
     .slide {
         min-width: 120px;
@@ -187,8 +197,39 @@ body {
     }
 }
 
-.slide p {
-    margin-top: 10px;
-    font-weight: 600;
-    color: #3d2b1f;
+/* Arrows */
+.arrow {
+    background: rgba(61, 43, 31, 0.7);
+    border: none;
+    color: white;
+    font-size: 2rem;
+    padding: 0 10px;
+    cursor: pointer;
+    border-radius: 50%;
+    user-select: none;
+    transition: background 0.3s ease;
+    z-index: 2;
+}
+
+.arrow:hover {
+    background: rgba(61, 43, 31, 0.9);
+}
+
+.arrow-left {
+    margin-right: 10px;
+}
+
+.arrow-right {
+    margin-left: 10px;
+}
+
+/* Scroll animation */
+@keyframes scrollSlider {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(calc(-50%));
+    }
 }
