@@ -28,42 +28,59 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // ===== Fullscreen Slider Logic =====
-  document.addEventListener('DOMContentLoaded', () => {
-    const slides = document.querySelectorAll(".slide");
-    const nextSlideBtn = document.getElementById("next-slide");
-    const prevSlideBtn = document.getElementById("prev-slide");
-    let currentSlide = 0;
+document.addEventListener('DOMContentLoaded', () => {
+  const slides = document.querySelectorAll(".slide");
+  const nextSlideBtn = document.querySelector(".next-slide");
+  const prevSlideBtn = document.querySelector(".prev-slide");
 
-    const showSlide = (index) => {
-      slides.forEach((slide) => slide.classList.remove("active"));
-      slides[index].classList.add("active");
-    };
+  let currentSlide = 0;
 
-    const next = () => {
-      currentSlide = (currentSlide + 1) % slides.length;
-      showSlide(currentSlide);
-    };
+  const showSlide = (index) => {
+    slides.forEach((slide) => slide.classList.remove("active"));
+    slides[index].classList.add("active");
+  };
 
-    const prev = () => {
-      currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-      showSlide(currentSlide);
-    };
+  const next = () => {
+    currentSlide = (currentSlide + 1) % slides.length;
+    showSlide(currentSlide);
+  };
 
-    let slideInterval = setInterval(next, 3000);
+  const prev = () => {
+    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+    showSlide(currentSlide);
+  };
 
-    const resetSlideInterval = () => {
-      clearInterval(slideInterval);
-      slideInterval = setInterval(next, 3000);
-    };
+  let slideInterval = setInterval(next, 3000);
 
-    nextSlideBtn?.addEventListener("click", () => {
+  const resetSlideInterval = () => {
+    clearInterval(slideInterval);
+    slideInterval = setInterval(next, 3000);
+  };
+
+  nextSlideBtn?.addEventListener("click", () => {
+    next();
+    resetSlideInterval();
+  });
+
+  prevSlideBtn?.addEventListener("click", () => {
+    prev();
+    resetSlideInterval();
+  });
+
+  // ✅ Arrow key controls with debug
+  window.addEventListener("keydown", (e) => {
+    console.log("Key pressed:", e.key); // debug log
+    if (e.key === "ArrowRight") {
+      e.preventDefault();
       next();
       resetSlideInterval();
-    });
-
-    prevSlideBtn?.addEventListener("click", () => {
+    } else if (e.key === "ArrowLeft") {
+      e.preventDefault();
       prev();
       resetSlideInterval();
-    });
+    }
   });
+});
+
+
 
