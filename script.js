@@ -94,6 +94,32 @@ document.addEventListener('scroll', function() {
         parallax.style.backgroundPosition = `center ${yPos}px`;
     }
 });
+document.addEventListener('DOMContentLoaded', () => {
+    const parallax = document.querySelector('.parallax-window');
+    let latestScroll = 0;
+    let ticking = false;
+
+    function updateParallax() {
+        const offset = parallax.offsetTop;
+        const height = parallax.offsetHeight;
+        const scrollTop = latestScroll;
+
+        if (scrollTop + window.innerHeight > offset && scrollTop < offset + height) {
+            let yPos = (scrollTop - offset) * 0.5;
+            parallax.style.backgroundPosition = `center ${yPos}px`;
+        }
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', () => {
+        latestScroll = window.pageYOffset;
+        if (!ticking) {
+            window.requestAnimationFrame(updateParallax);
+            ticking = true;
+        }
+    });
+});
+
 
 
 
