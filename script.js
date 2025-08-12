@@ -67,7 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
     resetSlideInterval();
   });
 
-  // ✅ Arrow key controls with debug
   window.addEventListener("keydown", (e) => {
     console.log("Key pressed:", e.key); // debug log
     if (e.key === "ArrowRight") {
@@ -80,6 +79,20 @@ document.addEventListener('DOMContentLoaded', () => {
       resetSlideInterval();
     }
   });
+});
+
+/*--- Parallax Window---*/
+document.addEventListener('scroll', function() {
+    const parallax = document.querySelector('.parallax-window');
+    let scrollTop = window.pageYOffset;
+    let offset = parallax.offsetTop;
+    let height = parallax.offsetHeight;
+
+    // Only update when the element is in view
+    if (scrollTop + window.innerHeight > offset && scrollTop < offset + height) {
+        let yPos = (scrollTop - offset) * 0.5; // Adjust speed factor
+        parallax.style.backgroundPosition = `center ${yPos}px`;
+    }
 });
 
 

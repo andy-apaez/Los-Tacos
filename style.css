@@ -346,22 +346,14 @@ section {
 }
 
 /*--- Parallax window---*/
- /* Parallax container */
  .parallax-window {
      position: relative;
      height: 400px;
      overflow: hidden;
      background-image: url('images/birria.jpg');
-     background-attachment: fixed;
      background-position: center;
      background-repeat: no-repeat;
      background-size: cover;
- }
-
- @media (max-width: 768px) {
-     .parallax-window {
-         background-attachment: scroll;
-     }
  }
 
  /* Centered box */
