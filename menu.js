@@ -1,4 +1,21 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // --- Firebase config ---
+  const firebaseConfig = {
+    apiKey: "AIzaSyDulbBti8Nw-3rn7TVnTy_-LXAnv0qiZ_4",
+    authDomain: "lostacosbk-f6beb.firebaseapp.com",
+    projectId: "lostacosbk-f6beb",
+    storageBucket: "lostacosbk-f6beb.firebasestorage.app",
+    messagingSenderId: "195303768634",
+    appId: "1:195303768634:web:6ad7735db3dc4d48406b03",
+    measurementId: "G-4XSGKESEY7"
+  };
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+  // Initialize Firestore
+  const db = firebase.firestore();
+
   // ----- Modal Elements -----
   const modal = document.getElementById('itemModal');
   const modalName = document.getElementById('modalItemName');
@@ -22,15 +39,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const cartItemsList = document.getElementById('cartItems');
   const cartTotal = document.getElementById('cartTotal');
 
-  // ----- Nav Toggle -----
-  const toggleButton = document.querySelector('.menu-toggle');
-  const nav = document.getElementById('main-nav');
-
-  toggleButton?.addEventListener('click', () => {
-    const isExpanded = toggleButton.getAttribute('aria-expanded') === 'true';
-    toggleButton.setAttribute('aria-expanded', !isExpanded);
-    nav.classList.toggle('open');
-  });
+  // ----- Place Order Button -----
+  const placeOrderBtn = document.getElementById('placeOrderBtn');
 
   // ----- State -----
   let cartItems = [];
@@ -69,19 +79,16 @@ document.addEventListener('DOMContentLoaded', () => {
     modalImg.src = imgSrc;
     specialInstructions.value = '';
 
-    // SHOW or HIDE meat selection ONLY for those two specific items
     if (name === "Los Tacos Combo" || name === "Los Tacos Super Combo") {
       meatSelection.style.display = 'block';
     } else {
       meatSelection.style.display = 'none';
-      // Reset checkboxes whenever hidden
       meatSelection.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
     }
 
     modal.classList.remove('hidden');
   }
 
-  // Limit max 3 selections inside modal meat checkboxes
   meatSelection.addEventListener('change', (e) => {
     if (e.target.type === 'checkbox') {
       const checkedBoxes = meatSelection.querySelectorAll('input[type="checkbox"]:checked');
@@ -93,7 +100,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   function addItemToCart(item) {
-    // Append selected meats from modal checkboxes if visible
     if (meatSelection.style.display === 'block') {
       const selectedMeats = [...meatSelection.querySelectorAll('input[type="checkbox"]:checked')]
         .map(cb => cb.value);
@@ -142,7 +148,6 @@ document.addEventListener('DOMContentLoaded', () => {
     openCartBtn.setAttribute('aria-label', `View Cart (${totalQty} items)`);
   }
 
-  // ----- Event Listeners -----
   document.querySelectorAll('.add-btn').forEach(btn => {
     btn.addEventListener('click', e => {
       e.stopPropagation();
@@ -177,8 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
   addToCartBtn.addEventListener('click', () => {
     if (!currentItem) return;
     currentItem.qty = currentQty;
-    currentItem.instructions = specialInstructions.value.trim(); // base instructions
-
+    currentItem.instructions = specialInstructions.value.trim();
     addItemToCart(currentItem);
     modal.classList.add('hidden');
   });
@@ -194,20 +198,17 @@ document.addEventListener('DOMContentLoaded', () => {
     openCartBtn.style.display = 'inline-block';
   });
 
-  // ===== Horizontal Sliders with precise snap scrolling and touch support =====
+  // ===== Horizontal Sliders =====
   document.querySelectorAll(".slider").forEach((slider) => {
     const menuItems = [...slider.querySelectorAll(".menu-item")];
     if (menuItems.length === 0) return;
 
-    // Get buttons from slider's parent container (.slider-container)
     const sliderContainer = slider.parentElement;
     const arrowLeft = sliderContainer.querySelector(".prev");
     const arrowRight = sliderContainer.querySelector(".next");
 
-    // Array of snap positions (offsetLeft of each menu item)
     const snapPositions = menuItems.map(item => item.offsetLeft);
 
-    // Helper to find closest snap position to current scrollLeft
     function findClosestSnapPosition(scrollLeft) {
       let closest = snapPositions[0];
       let minDiff = Math.abs(scrollLeft - closest);
@@ -221,46 +222,35 @@ document.addEventListener('DOMContentLoaded', () => {
       return closest;
     }
 
-    // Slide to next snap point
     arrowRight?.addEventListener("click", () => {
       const currentScroll = slider.scrollLeft;
       const currentSnap = findClosestSnapPosition(currentScroll);
-
-      // Find next snap point greater than currentSnap
       const nextIndex = snapPositions.findIndex(pos => pos > currentSnap);
       if (nextIndex !== -1) {
         slider.scrollTo({ left: snapPositions[nextIndex], behavior: "smooth" });
       } else {
-        // If at end, scroll to max scroll
         slider.scrollTo({ left: slider.scrollWidth, behavior: "smooth" });
       }
     });
 
-    // Slide to previous snap point
     arrowLeft?.addEventListener("click", () => {
       const currentScroll = slider.scrollLeft;
       const currentSnap = findClosestSnapPosition(currentScroll);
-
-      // Find previous snap point less than currentSnap
       const prevPositions = snapPositions.filter(pos => pos < currentSnap);
       if (prevPositions.length) {
         const prevSnap = prevPositions[prevPositions.length - 1];
         slider.scrollTo({ left: prevSnap, behavior: "smooth" });
       } else {
-        // If at start, scroll to 0
         slider.scrollTo({ left: 0, behavior: "smooth" });
       }
     });
 
-    // Touch support
     let startX = 0, startY = 0, isDragging = false;
-
     slider.addEventListener("touchstart", (e) => {
       startX = e.touches[0].clientX;
       startY = e.touches[0].clientY;
       isDragging = true;
     });
-
     slider.addEventListener("touchmove", (e) => {
       if (!isDragging) return;
       const dx = startX - e.touches[0].clientX;
@@ -274,13 +264,12 @@ document.addEventListener('DOMContentLoaded', () => {
         isDragging = false;
       }
     });
-
     slider.addEventListener("touchend", () => {
       isDragging = false;
     });
   });
 
-  // ===== Smooth Scroll for Anchor Links =====
+  // ===== Smooth Scroll =====
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener("click", function (e) {
       e.preventDefault();
@@ -289,21 +278,48 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // ===== Back to Top Button =====
+  // ===== Back to Top =====
   const topBtn = document.getElementById("backToTop");
   let scrollTimeout;
-
   window.addEventListener("scroll", () => {
     clearTimeout(scrollTimeout);
     scrollTimeout = setTimeout(() => {
       topBtn.style.display = window.scrollY > 400 ? "block" : "none";
     }, 100);
   });
-
   topBtn?.addEventListener("click", () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
 
-  // Initialize cart UI
   updateCartUI();
+
+  // ===== FIREBASE ORDER SAVE =====
+  if (placeOrderBtn) {
+    placeOrderBtn.addEventListener("click", () => {
+      if (cartItems.length === 0) {
+        alert("Your cart is empty!");
+        return;
+      }
+
+      const total = cartItems.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
+      db.collection("orders").add({
+        items: cartItems,
+        total: total,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      })
+      .then((docRef) => {
+        console.log("Order saved with ID:", docRef.id);
+        alert("Order placed successfully!");
+        cartItems = [];
+        updateCartUI();
+        cart.classList.add('hidden');
+        openCartBtn.style.display = 'inline-block';
+      })
+      .catch((error) => {
+        console.error("Error saving order:", error);
+        alert("Failed to save order.");
+      });
+    });
+  }
 });

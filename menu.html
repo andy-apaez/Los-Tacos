@@ -10,11 +10,14 @@
 </head>
 
 <body>
+  <input type="email" id="email" placeholder="Email" />
+  <input type="password" id="password" placeholder="Password" />
+  <button id="loginBtn">Log In</button>
+  <div id="authMessage"></div>
+
+
+
   <header>
-    <button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="main-nav">
-      &#9776;
-    </button>
-    <nav id="main-nav">
       <a href="index.html">Home Page</a>
     </nav>
   </header>
@@ -821,7 +824,7 @@
     <h3>Your Cart</h3>
     <ul id="cartItems"></ul>
     <p id="cartTotal">Total: $0.00</p>
-    <button id="checkoutBtn">Checkout</button>
+    <button id="placeOrderBtn">Place Order</button>
     <button id="closeCartBtn" aria-label="Close Cart">Close</button>
   </div>
   
@@ -834,9 +837,62 @@
   <button id="closeCartBtn" aria-label="Close Cart">Close</button>
 </div>
 
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/11.0.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.0.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore-compat.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyDulbBti8Nw-3rn7TVnTy_-LXAnv0qiZ_4",
+      authDomain: "lostacosbk-f6beb.firebaseapp.com",
+      projectId: "lostacosbk-f6beb",
+      storageBucket: "lostacosbk-f6beb.firebasestorage.app",
+      messagingSenderId: "195303768634",
+      appId: "1:195303768634:web:6ad7735db3dc4d48406b03",
+      measurementId: "G-4XSGKESEY7"
+    };
+
+    // Initialize Firebase app and auth
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    // Get DOM elements
+    const loginBtn = document.getElementById('loginBtn');
+    const authMessage = document.getElementById('authMessage');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+
+    // Login button click handler
+    loginBtn.addEventListener('click', () => {
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+
+      authMessage.textContent = '';
+
+      if (!email || !password) {
+        authMessage.textContent = 'Please enter email and password.';
+        return;
+      }
+
+      auth.signInWithEmailAndPassword(email, password)
+        .then(() => {
+          window.location.href = 'dashboard.html';
+        })
+        .catch(error => {
+          authMessage.textContent = 'Login failed: ' + error.message;
+        });
+    });
+  });
+</script>
 
 
-  <script src="menu.js"></script>
+<!-- menu JS -->
+<script src="menu.js"></script>
+
+
 
 </body>
 

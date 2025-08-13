@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kitchen Dashboard</title>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/11.0.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore-compat.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+        }
+
+        #logoutBtn {
+            padding: 8px 16px;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Kitchen Dashboard</h1>
+    <button id="logoutBtn">Log Out</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Items</th>
+                <th>Total</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody id="ordersTableBody">
+            <tr>
+                <td colspan="4">Loading orders...</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const firebaseConfig = {
+                apiKey: "AIzaSyDulbBti8Nw-3rn7TVnTy_-LXAnv0qiZ_4",
+                authDomain: "lostacosbk-f6beb.firebaseapp.com",
+                projectId: "lostacosbk-f6beb",
+                storageBucket: "lostacosbk-f6beb.firebasestorage.app",
+                messagingSenderId: "195303768634",
+                appId: "1:195303768634:web:6ad7735db3dc4d48406b03",
+                measurementId: "G-4XSGKESEY7"
+            };
+
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+            const auth = firebase.auth();
+            const db = firebase.firestore();
+
+            const ordersTableBody = document.getElementById('ordersTableBody');
+            const logoutBtn = document.getElementById('logoutBtn');
+
+            logoutBtn.addEventListener('click', () => {
+                auth.signOut().then(() => {
+                    window.location.href = 'menu.html';
+                }).catch(error => {
+                    alert('Logout failed: ' + error.message);
+                });
+            });
+
+            auth.onAuthStateChanged(user => {
+                if (!user) {
+                    window.location.href = 'menu.html';
+                    return;
+                }
+
+                // User logged in, listen for orders
+                db.collection('orders').orderBy('timestamp', 'desc')
+                    .onSnapshot(snapshot => {
+                        ordersTableBody.innerHTML = '';
+
+                        if (snapshot.empty) {
+                            ordersTableBody.innerHTML = '<tr><td colspan="4">No orders found.</td></tr>';
+                            return;
+                        }
+
+                        snapshot.forEach(doc => {
+                            const data = doc.data();
+                            const id = doc.id;
+
+                            const itemsText = data.items.map(i => `${i.name} x${i.qty}`).join(', ');
+                            const totalText = '$' + (data.total || 0).toFixed(2);
+                            const timestampText = data.timestamp ? new Date(data.timestamp.seconds * 1000).toLocaleString() : '';
+
+                            const tr = document.createElement('tr');
+                            tr.innerHTML = `
+                <td>${id}</td>
+                <td>${itemsText}</td>
+                <td>${totalText}</td>
+                <td>${timestampText}</td>
+              `;
+                            ordersTableBody.appendChild(tr);
+                        });
+                    });
+            });
+        });
+    </script>
+
+</body>
+
+</html>

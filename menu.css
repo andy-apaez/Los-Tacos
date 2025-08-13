@@ -590,3 +590,7 @@ textarea {
     font-size: 16px;
     touch-action: manipulation;
 }
+
+header {
+    color: #b32121;
+}
