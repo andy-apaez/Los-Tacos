@@ -10,11 +10,67 @@
 </head>
 
 <body>
-  <input type="email" id="email" placeholder="Email" />
-  <input type="password" id="password" placeholder="Password" />
-  <button id="loginBtn">Log In</button>
-  <div id="authMessage"></div>
+  <!-- Staff Login Button -->
+  <button id="staffLoginBtn">Staff Login</button>
+  
+  <div id="loginModal" style="display:none; /* plus modal styles */">
+    <div class="modal-content">
+      <span id="loginModalClose" style="cursor:pointer;">&times;</span>
+      <input type="email" id="email" placeholder="Email" />
+      <input type="password" id="password" placeholder="Password" />
+      <button id="loginBtn">Login</button>
+      <div id="authMessage"></div>
+    </div>
+  </div>
 
+  
+  <style>
+    /* Basic modal styles */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+  
+    .hidden {
+      display: none;
+    }
+  
+    .modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      width: 300px;
+      text-align: center;
+      position: relative;
+    }
+  
+    .close {
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      font-size: 24px;
+      cursor: pointer;
+    }
+  
+    input {
+      width: 100%;
+      margin: 8px 0;
+      padding: 8px;
+    }
+  
+    button {
+      padding: 8px 16px;
+      margin-top: 10px;
+    }
+  </style>
 
 
   <header>
@@ -844,48 +900,72 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    // Firebase config
-    const firebaseConfig = {
-      apiKey: "AIzaSyDulbBti8Nw-3rn7TVnTy_-LXAnv0qiZ_4",
-      authDomain: "lostacosbk-f6beb.firebaseapp.com",
-      projectId: "lostacosbk-f6beb",
-      storageBucket: "lostacosbk-f6beb.firebasestorage.app",
-      messagingSenderId: "195303768634",
-      appId: "1:195303768634:web:6ad7735db3dc4d48406b03",
-      measurementId: "G-4XSGKESEY7"
-    };
+  // Firebase config
+  const firebaseConfig = {
+    apiKey: "AIzaSyDulbBti8Nw-3rn7TVnTy_-LXAnv0qiZ_4",
+    authDomain: "lostacosbk-f6beb.firebaseapp.com",
+    projectId: "lostacosbk-f6beb",
+    storageBucket: "lostacosbk-f6beb.firebasestorage.app",
+    messagingSenderId: "195303768634",
+    appId: "1:195303768634:web:6ad7735db3dc4d48406b03",
+    measurementId: "G-4XSGKESEY7"
+  };
 
-    // Initialize Firebase app and auth
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
+  // Initialize Firebase app and auth
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
 
-    // Get DOM elements
-    const loginBtn = document.getElementById('loginBtn');
-    const authMessage = document.getElementById('authMessage');
-    const emailInput = document.getElementById('email');
-    const passwordInput = document.getElementById('password');
+  // DOM elements
+  const staffLoginBtn = document.getElementById('staffLoginBtn');
+  const loginModal = document.getElementById('loginModal');
+  const loginModalClose = document.getElementById('loginModalClose');
+  const loginBtn = document.getElementById('loginBtn');
+  const authMessage = document.getElementById('authMessage');
+  const emailInput = document.getElementById('email');
+  const passwordInput = document.getElementById('password');
 
-    // Login button click handler
-    loginBtn.addEventListener('click', () => {
-      const email = emailInput.value.trim();
-      const password = passwordInput.value;
-
-      authMessage.textContent = '';
-
-      if (!email || !password) {
-        authMessage.textContent = 'Please enter email and password.';
-        return;
-      }
-
-      auth.signInWithEmailAndPassword(email, password)
-        .then(() => {
-          window.location.href = 'dashboard.html';
-        })
-        .catch(error => {
-          authMessage.textContent = 'Login failed: ' + error.message;
-        });
-    });
+  // Open modal on button click
+  staffLoginBtn.addEventListener('click', () => {
+    loginModal.style.display = 'flex';
+    authMessage.textContent = '';
+    emailInput.value = '';
+    passwordInput.value = '';
   });
+
+  // Close modal on close button click
+  loginModalClose.addEventListener('click', () => {
+    loginModal.style.display = 'none';
+  });
+
+  // Close modal if click outside content
+  loginModal.addEventListener('click', e => {
+    if (e.target === loginModal) {
+      loginModal.style.display = 'none';
+    }
+  });
+
+  // Login button inside modal
+  loginBtn.addEventListener('click', () => {
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+
+    authMessage.textContent = '';
+
+    if (!email || !password) {
+      authMessage.textContent = 'Please enter email and password.';
+      return;
+    }
+
+    auth.signInWithEmailAndPassword(email, password)
+      .then(() => {
+        window.location.href = 'dashboard.html';
+      })
+      .catch(error => {
+        authMessage.textContent = 'Login failed: ' + error.message;
+      });
+  });
+});
+
 </script>
 
 
