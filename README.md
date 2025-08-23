@@ -3,6 +3,17 @@ Los Tacos Website 🍴🌮
 Los Tacos is a modern, responsive restaurant website built with HTML, CSS, and JavaScript. It includes dynamic functionality for online ordering and integrates with Stripe and Firebase to manage and track customer orders in real-time.
 
 ---
+Location and contact info
+
+📍 7411 15th Ave, Brooklyn, NY 11228
+📞 (917) 933-4211
+Instagram: @los_tacos._
+
+---
+<img width="1269" height="763" alt="Screenshot 2025-08-23 at 12 08 44 AM" src="https://github.com/user-attachments/assets/56591e83-9b13-4b77-b58d-a2c1ceff7832" />
+
+
+---
 Features
 
 Responsive Design – Works seamlessly on desktop, tablet, and mobile devices.
