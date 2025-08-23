@@ -18,6 +18,8 @@ Features
 
 Responsive Design – Works seamlessly on desktop, tablet, and mobile devices.
 
+"Home Page Navigation – Features responsive sliders and provides key information including catering, location, and contact details."
+
 Menu Browsing – Horizontal sliders for menu categories with smooth scrolling.
 
 Modal Popups – Detailed view of menu items with images, descriptions, and add-to-cart options.
@@ -46,8 +48,6 @@ Hosting/Deployment: Vercel
 ---
 Usage
 
-* Pick-up or delivery within 5 miles is available. 
-
 * Browse the menu by category sliders.
 
 * Click a menu item to view its details in a modal popup.
@@ -57,6 +57,8 @@ Usage
 * Proceed to checkout for secure payment via Stripe.
 
 * Orders are saved and tracked in Firebase for restaurant management.
+
+* Pick-up or delivery within 5 miles is available. 
 
 ---
 License
