@@ -46,6 +46,8 @@ Hosting/Deployment: Vercel
 ---
 Usage
 
+* Pick-up or delivery within 5 miles is available. 
+
 * Browse the menu by category sliders.
 
 * Click a menu item to view its details in a modal popup.
