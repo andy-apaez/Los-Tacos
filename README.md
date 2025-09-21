@@ -1,5 +1,7 @@
 Los Tacos Website 🍴🌮
 
+WORK IN PROGRESS!!! PAYMENT NOT INTERGRATED YET!!!
+
 Los Tacos is a modern, responsive restaurant website built with HTML, CSS, and JavaScript. It includes dynamic functionality for online ordering and integrates with Stripe and Firebase to manage and track customer orders in real-time.
 
 ---
